@@ -31,6 +31,11 @@ disease_extent = st.selectbox(
     ["Localized (cT1-2, N0, M0)", "Locally Advanced (cT3-4 or N1, M0)", "Metastatic (M1)"]
 )
 
+risk_group = None
+androgen_status = None
+volume = None
+prior_therapy = []
+
 if disease_extent == "Localized (cT1-2, N0, M0)":
     # Risk Stratification for Localized
     risk_group = st.selectbox(
@@ -177,5 +182,43 @@ elif disease_extent == "Metastatic (M1)":
           - Note: Some combinations off-label in Germany if not EMA-aligned.
         """)
 
+# Visual Flowchart Section (inspired by Knowuro style)
+st.subheader("Visual Decision Pathway")
+mermaid_code = "graph TD\n"
+mermaid_code += "Start[Prostate Cancer Diagnosis/Staging] --> Genetic[Genetic Testing: " + genetic_status + "]\n"
+mermaid_code += "Genetic --> Extent[Disease Extent: " + disease_extent + "]\n"
+
+if disease_extent == "Localized (cT1-2, N0, M0)":
+    mermaid_code += "Extent --> Risk[Risk Group: " + risk_group + "]\n"
+    mermaid_code += "Risk --> Therapy[Recommended Therapies]\n"
+    if "Very Low/Low Risk" in risk_group:
+        mermaid_code += "Therapy --> AS[Active Surveillance]\n"
+        mermaid_code += "Therapy --> Curative[RP / EBRT / Brachytherapy]\n"
+    elif "Favorable" in risk_group:
+        mermaid_code += "Therapy --> ASorCurative[AS or Curative (RP/EBRT + short ADT)]\n"
+    elif "Unfavorable" in risk_group:
+        mermaid_code += "Therapy --> Curative[RP + ePLND or EBRT + short ADT]\n"
+    elif "High Risk" in risk_group:
+        mermaid_code += "Therapy --> Multimodal[EBRT + long ADT or RP + ePLND]\n"
+elif disease_extent == "Locally Advanced (cT3-4 or N1, M0)":
+    mermaid_code += "Extent --> Staging[PSMA-PET/CT]\n"
+    mermaid_code += "Staging --> Therapy[Multimodal: EBRT + long ADT or RP + ePLND]\n"
+elif disease_extent == "Metastatic (M1)":
+    mermaid_code += "Extent --> Androgen[Androgen Status: " + androgen_status + "]\n"
+    if androgen_status == "Hormone-Sensitive (mHSPC)":
+        mermaid_code += "Androgen --> Volume[Disease Volume: " + volume + "]\n"
+        mermaid_code += "Volume --> Backbone[ADT Backbone]\n"
+        mermaid_code += "Backbone --> AddOns[Add ARPI / Docetaxel / Triple Therapy]\n"
+        mermaid_code += "AddOns --> Local[Local RT for low-volume]\n"
+    else:
+        mermaid_code += "Androgen --> Prior[Prior Therapies: " + ", ".join(prior_therapy) + "]\n"
+        mermaid_code += "Prior --> Confirm[Confirm CRPC]\n"
+        mermaid_code += "Confirm --> Sequence[ARPI switch / Docetaxel / Cabazitaxel / PARP / Lu-PSMA]\n"
+
+if genetic_status != "Not Performed/Unknown" and genetic_status != "Negative/No Pathogenic Variants":
+    mermaid_code += "Genetic --> Impact[Genetic Impact: Consider PARP / Immunotherapy]\n"
+
+st.markdown(f"```mermaid\n{mermaid_code}\n```")
+
 st.markdown("---")
-st.info("References: EAU 2025 Guidelines[](https://uroweb.org/guidelines/prostate-cancer); German S3-Leitlinie Version 8.1 (2025). Always verify latest updates.")
+st.info("References: EAU 2025 Guidelines[](https://uroweb.org/guidelines/prostate-cancer); German S3-Leitlinie Version 8.1 (2025). Knowuro-inspired visualization[](https://knowuro.com). Always verify latest updates.")
