@@ -377,7 +377,7 @@ Esta es una representación simplificada con fines educativos—consulte las gu�
         "genetic_options": ["No Realizada/Desconocida", "Negativa/Sin Variantes Patogénicas", "BRCA1/2 Positiva", "Otra HRR Positiva (ej. ATM, CHEK2)", "Deficiente en MMR (MSI-H/dMMR)"],
         "parp_expander": "Inhibidores PARP en Cáncer de Próstata: Visión Detallada",
         "parp_content": """
-Los inhibidores PARP (Poly ADP-ribose polimerasa) son terapias dirigidas que explotan defectos en vías de reparación de ADN en células cancerosas, particularmente aquellas con deficiencias en reparación por recombinación homóloga (HRR). Funcionan a través de "letalidad sintética", donde la inhibición de enzimas PARP en células ya comprometidas por mutaciones (ej. en genes BRCA1/2) lleva a daño acumulado en ADN y muerte celular, mientras ahorra células normales. En cáncer de próstata, se usan principalmente en etapas avanzadas, especialmente cáncer de próstata metastásico resistente a la castración (mCRPC), y cada vez más en combinaciones con inhibidores de la vía del receptor de andrógenos (ARPIs) como abiraterona o enzalutamida.
+Los inhibidores PARP (Poly ADP-ribose polimerasa) son terapias dirigidas que explotan defectos en vias de reparación de ADN en células cancerosas, particularmente aquellas con deficiencias en reparación por recombinación homóloga (HRR). Funcionan a través de "letalidad sintética", donde la inhibición de enzimas PARP en células ya comprometidas por mutaciones (ej. en genes BRCA1/2) lleva a daño acumulado en ADN y muerte celular, mientras ahorra células normales. En cáncer de próstata, se usan principalmente en etapas avanzadas, especialmente cáncer de próstata metastásico resistente a la castración (mCRPC), y cada vez más en combinaciones con inhibidores de la vía del receptor de andrógenos (ARPIs) como abiraterona o enzalutamida.
     
 #### Fármacos Clave y Mecanismos
 | Fármaco | Nombre Comercial | Notas de Mecanismo | Dosificación Típica (Estándar/Reducida) |
@@ -642,77 +642,77 @@ elif disease_extent == t["extent_options"][2]:  # Metastatic
 # Refined Visual Flowchart Section
 st.subheader(t["visual_subheader"])
 mermaid_code = "graph TD\n"
-mermaid_code += "Start[Diagnosis: PSA/DRE/mpMRI/Biopsy] --> Genetic{Genetic Testing?}\n"
-mermaid_code += f"Genetic -->|Result: {genetic_status}| Extent{{Disease Extent?}}\n"
+mermaid_code += "A[Diagnose] --> B{Genetic?}\n"
+mermaid_code += f"B -->| {genetic_status} | C{{Ausmaß?}}\n"
 
 # Translate mermaid nodes based on language (simplified, keeping medical terms)
 if language == "Deutsch":
-    mermaid_code = mermaid_code.replace("Diagnosis: PSA/DRE/mpMRI/Biopsy", "Diagnose: PSA/DRE/mpMRI/Biopsie")
-    mermaid_code = mermaid_code.replace("Genetic Testing?", "Genetisches Testing?")
-    mermaid_code = mermaid_code.replace("Disease Extent?", "Ausmaß der Erkrankung?")
+    mermaid_code = mermaid_code.replace("Diagnose", "Diagnose: PSA/DRE/mpMRI/Biopsie")
+    mermaid_code = mermaid_code.replace("Genetic?", "Genetisches Testing?")
+    mermaid_code = mermaid_code.replace("Ausmaß?", "Ausmaß der Erkrankung?")
     # Add more translations for other nodes as needed
 elif language == "Español":
-    mermaid_code = mermaid_code.replace("Diagnosis: PSA/DRE/mpMRI/Biopsy", "Diagnóstico: PSA/DRE/mpMRI/Biopsia")
-    mermaid_code = mermaid_code.replace("Genetic Testing?", "¿Pruebas Genéticas?")
-    mermaid_code = mermaid_code.replace("Disease Extent?", "¿Extensión de la Enfermedad?")
+    mermaid_code = mermaid_code.replace("Diagnose", "Diagnóstico: PSA/DRE/mpMRI/Biopsia")
+    mermaid_code = mermaid_code.replace("Genetic?", "¿Pruebas Genéticas?")
+    mermaid_code = mermaid_code.replace("Ausmaß?", "¿Extensión de la Enfermedad?")
     # Add more
 
 if disease_extent == t["extent_options"][0]:
-    mermaid_code += f"Extent -->|Localized| Risk{{Risk Group?}}\n"
-    mermaid_code += f"Risk -->|{risk_group}| Staging[Staging: No additional imaging for low-risk]\n"
-    mermaid_code += "Staging --> TherapyOptions{Therapy?}\n"
+    mermaid_code += f"C -->|Lokal| D{{Risiko?}}\n"
+    mermaid_code += f"D -->|{risk_group}| E[Staging: Kein extra Imaging]\n"
+    mermaid_code += "E --> F{{Therapie?}}\n"
     if t["risk_options"][0] in risk_group:
-        mermaid_code += "TherapyOptions -->|Primary| AS[Active Surveillance: PSA/mpMRI/re-biopsy]\n"
-        mermaid_code += "TherapyOptions -->|If declined| Curative[RP or EBRT 74-80Gy or LDR Brachy]\n"
-        mermaid_code += "Curative --> NoADT[No ADT/Lymphadenectomy]\n"
+        mermaid_code += "F -->|Primär| G[AS: PSA/mpMRI/Biopsie]\n"
+        mermaid_code += "F -->|Abgelehnt| H[RP/EBRT/Brachy]\n"
+        mermaid_code += "H --> I[Kein ADT]\n"
     elif t["risk_options"][1] in risk_group:
-        mermaid_code += "TherapyOptions --> ASorCurative[AS (if no unfavorable) or Curative]\n"
-        mermaid_code += "ASorCurative --> CurativeDetails[RP +/- Lymph or EBRT hypofrac + short ADT 4-6m]\n"
-        mermaid_code += "CurativeDetails --> Focal[Focal therapies select, not standard]\n"
+        mermaid_code += "F --> J[AS oder Kurativ]\n"
+        mermaid_code += "J --> K[RP +/- Lymph oder EBRT + kurzes ADT]\n"
+        mermaid_code += "K --> L[Fokale Therapien ausgewählt]\n"
     elif t["risk_options"][2] in risk_group:
-        mermaid_code += "TherapyOptions --> Curative[RP + ePLND or EBRT + short ADT 4-6m]\n"
-        mermaid_code += "Curative --> Boost[Brachy boost possible]\n"
+        mermaid_code += "F --> M[RP + ePLND oder EBRT + kurzes ADT]\n"
+        mermaid_code += "M --> N[Brachy-Boost möglich]\n"
     elif t["risk_options"][3] in risk_group:
-        mermaid_code += "TherapyOptions --> Multimodal[EBRT + long ADT 24-36m or RP + ePLND + adj RT if pT3/R1]\n"
-        mermaid_code += "Multimodal --> Boost[Brachy boost select]\n"
-    mermaid_code += "TherapyOptions --> PostTx[Post-Treatment: Monitor for BCR]\n"
-    mermaid_code += "PostTx --> BCR{{BCR?}}\n"
-    mermaid_code += "BCR -->|Yes| Imaging[PSMA PET/CT if PSA >0.2]\n"
-    mermaid_code += "Imaging --> Salvage[Salvage RT + ADT or Monitoring based on risk]\n"
+        mermaid_code += "F --> O[EBRT + langes ADT oder RP + ePLND]\n"
+        mermaid_code += "O --> P[Brachy-Boost]\n"
+    mermaid_code += "F --> Q[Post-Tx: BCR Monitor]\n"
+    mermaid_code += "Q --> R{{BCR?}}\n"
+    mermaid_code += "R -->|Ja| S[PSMA PET/CT bei PSA >0.2]\n"
+    mermaid_code += "S --> T[Salvage RT + ADT]\n"
 elif disease_extent == t["extent_options"][1]:
-    mermaid_code += f"Extent -->|Locally Advanced| Staging[Staging: PSMA-PET/CT]\n"
-    mermaid_code += "Staging --> Therapy{{Therapy?}}\n"
-    mermaid_code += "Therapy --> Multimodal[EBRT IMRT/IGRT + long ADT 24-36m]\n"
-    mermaid_code += "Therapy --> Operable[If operable: RP + ePLND + adj RT]\n"
-    mermaid_code += "Therapy --> N1[For N1: Pelvic RT + ADT 3y + abiraterone 2y if ≥2 risks]\n"
-    mermaid_code += "Therapy --> Boost[Brachy boost for cT3a]\n"
+    mermaid_code += f"C -->|Lokal fortg.| U[Staging: PSMA-PET/CT]\n"
+    mermaid_code += "U --> V{{Therapie?}}\n"
+    mermaid_code += "V --> W[EBRT + langes ADT]\n"
+    mermaid_code += "V --> X[RP + ePLND + adj RT]\n"
+    mermaid_code += "V --> Y[N1: RT + ADT + Abirateron]\n"
+    mermaid_code += "V --> Z[Brachy-Boost cT3a]\n"
 elif disease_extent == t["extent_options"][2]:
-    mermaid_code += f"Extent -->|Metastatic| Androgen{{Androgen Status?}}\n"
-    mermaid_code += f"Androgen -->|{androgen_status}| Staging[Staging: PSMA-PET/CT]\n"
+    mermaid_code += f"C -->|Metast.| AA{{Androgen?}}\n"
+    mermaid_code += f"AA -->|{androgen_status}| AB[Staging: PSMA-PET/CT]\n"
     if androgen_status == t["androgen_options"][0]:
-        mermaid_code += f"Staging --> Volume{{Volume?}}\n"
-        mermaid_code += f"Volume -->|{volume}| Backbone[ADT Backbone: GnRH or orchiectomy]\n"
-        mermaid_code += "Backbone --> AddOns[Add ARPI/abiraterone within 3m]\n"
-        mermaid_code += "AddOns --> Chemo[If eligible: + Docetaxel 6 cycles]\n"
-        mermaid_code += "Chemo --> Triple[Triple Therapy for high-volume]\n"
-        mermaid_code += "Triple --> Local[Local RT/SBRT for low-volume/oligo]\n"
-        mermaid_code += "Local --> Bone[Bone agents: Denosumab/zoledronic]\n"
+        mermaid_code += f"AB --> AC{{Volumen?}}\n"
+        mermaid_code += f"AC -->|{volume}| AD[ADT Backbone]\n"
+        mermaid_code += "AD --> AE[ARPI/Abirateron hinzufügen]\n"
+        mermaid_code += "AE --> AF[+ Docetaxel]\n"
+        mermaid_code += "AF --> AG[Triple für hoch Vol.]\n"
+        mermaid_code += "AG --> AH[Lokale RT niedrig Vol.]\n"
+        mermaid_code += "AH --> AI[Knochenmittel]\n"
     else:
-        mermaid_code += f"Staging --> Prior[Prior Therapies: {', '.join(prior_therapy)}]\n"
-        mermaid_code += "Prior --> Confirm[Confirm CRPC: T<50, progression]\n"
-        mermaid_code += "Confirm --> Therapies[Continue ADT; ARPI switch or Docetaxel]\n"
-        mermaid_code += "Therapies --> Symptomatic[If symptomatic: Docetaxel or Ra-223 bone-predom]\n"
-        mermaid_code += "Therapies --> PostDoc[Post-docetaxel: Cabazitaxel, ARPI, PARP if HRR+]\n"
-        mermaid_code += "PostDoc --> LuPSMA[Lu-PSMA-617 if PSMA+ post ARPI/chemo]\n"
-        mermaid_code += "LuPSMA --> Bone[Bone agents for SRE]\n"
+        mermaid_code += f"AB --> AJ[Vorherige: {', '.join(prior_therapy)}]\n"
+        mermaid_code += "AJ --> AK[CRPC bestätigen]\n"
+        mermaid_code += "AK --> AL[ADT fort; ARPI-Wechsel/Docetaxel]\n"
+        mermaid_code += "AL --> AM[Sympt.: Docetaxel/Ra-223]\n"
+        mermaid_code += "AL --> AN[Post-Doc: Cabazitaxel/PARP]\n"
+        mermaid_code += "AN --> AO[Lu-PSMA post ARPI/Chemo]\n"
+        mermaid_code += "AO --> AP[Knochenmittel]\n"
 
 if genetic_status != t["genetic_options"][0] and genetic_status != t["genetic_options"][1]:
     if "BRCA" in genetic_status or "HRR" in genetic_status:
-        mermaid_code += "Genetic -->|Positive| GeneticImpact[HRR+: PARP combos, platinum]\n"
+        mermaid_code += "B -->|Positiv| AQ[HRR+: PARP, Platin]\n"
     elif "MMR" in genetic_status:
-        mermaid_code += "Genetic -->|Positive| GeneticImpact[MMR+: Pembrolizumab if MSI-H]\n"
-    mermaid_code += "GeneticImpact -.-> TherapyOptions\n"
-    mermaid_code += "GeneticImpact -.-> Therapies\n"
+        mermaid_code += "B -->|Positiv| AR[MMR+: Pembrolizumab MSI-H]\n"
+    mermaid_code += "AQ -.-> F\n"
+    mermaid_code += "AQ -.-> AL\n"
 
 st.markdown(f"```mermaid\n{mermaid_code}\n```")
 
