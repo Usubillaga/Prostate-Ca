@@ -11,7 +11,7 @@ st.set_page_config(
 # --- 2. Traducciones y Contenido ---
 translations = {
     "English": {
-        "title": "Prostate Cancer Treatment Algorithm (EAU/S3 2026)",
+        "title": "Prostate Cancer Treatment Algorithm (EAU/S3 2025)",
         "description": "Clinical Decision Support based on **EAU Guidelines 2025** and **German S3-Leitlinie (v8.1)**.",
         "sidebar_title": "Patient Configuration",
         "rec_title": "Therapy Recommendations",
