@@ -258,14 +258,14 @@ translations = {
         🟢 **Geringes Volumen**
         
         **Standard: Doublet + Lokaltherapie**
-        1. **ADT** + **ARPI** (Enzalutamid / Apalutamid).
+        1. **ADT** + **ARPI** (Enzalutamid / Apalutamida).
         2. **Prostata-RT:** 55 Gy / 20 Fx (STAMPEDE H).
         
         ⛔ **Cave:** Kein Docetaxel bei Low Volume (Toxizität > Nutzen).
         
         ✅ **Zulassung:**
         - 🇪🇺 **Enzalutamid:** $160$ mg (ARCHES).
-        - 🇪🇺 **Apalutamide:** $240$ mg (TITAN).
+        - 🇪🇺 **Apalutamida:** $240$ mg (TITAN).
         """,
 
         "header_mcrpc": "Metastasiert Kastrationsresistent (mCRPC)",
@@ -510,7 +510,7 @@ if disease_extent == t["extent_opts"][0]:
     st.header(t["header_local"])
     col1, col2 = st.columns([1,2])
     with col1:
-        
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Prostate_cancer_Gleason_score.jpg/640px-Prostate_cancer_Gleason_score.jpg", caption="Gleason/ISUP", use_column_width=True)
     with col2:
         if risk_key == "low" or risk_key == "int_fav":
             st.success(t["rec_as_extended"])
@@ -524,7 +524,7 @@ elif disease_extent == t["extent_opts"][1]:
     st.header(t["header_la"])
     col1, col2 = st.columns([1,2])
     with col1:
-        
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg/640px-Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg.png", caption="Anatomy (CRUK)", use_column_width=True)
     with col2:
         if is_cn1:
             st.error(t["rec_la_cn1"]) # STAMPEDE
@@ -551,7 +551,7 @@ elif disease_extent == t["extent_opts"][3]:
         st.header(t["header_mhspc"])
         col1, col2 = st.columns([1,1])
         with col1:
-             
+             st.image("https://upload.wikimedia.org/wikipedia/commons/6/6d/Bone_scan_Prostate_Cancer.jpg", caption="Bone Scan", use_column_width=True)
         with col2:
             if is_high_volume:
                 st.error(t["rec_mhspc_high"])
