@@ -1,23 +1,22 @@
 import streamlit as st
 
 # Prostate Cancer Treatment Algorithm App
-st.title("Prostate Cancer Treatment Algorithm")
+st.title("Prostate Cancer Treatment Decision Pathway")
 st.markdown("""
-This interactive app is based on the 2025 EAU (Uroweb) Guidelines and the German S3-Leitlinie Prostatakarzinom (Version 8.1, August 2025). 
-It guides from diagnosis to therapy, including localized, advanced, metastatic, and biochemical recurrence (BCR) pathways.
-**New: EAU BCR Risk Stratification (Low-Risk vs. High-Risk)** integrated for personalized recommendations in BCR (post-RP and post-RT).
-Expanded details on genetic testing and PSMA PET/CT imaging.
-Therapies include notes on 'Zulassung' (approval/reimbursement status) in EU/Germany where relevant.
+This interactive app is based on the 2025 EAU (Uroweb) Guidelines (limited update) and the German S3-Leitlinie Prostatakarzinom (Version 8.1, August 2025). 
+It provides a **guided decision pathway** from diagnosis/staging to therapy recommendations, including localized, advanced, metastatic, and biochemical recurrence (BCR).
+**New: Standard drug dosages** added to key therapies (aligned with EAU/German approvals and trial data).
+Expanded details on genetic testing, PSMA PET/CT, BCR risk stratification, and PSA level.
+Therapies include notes on 'Zulassung' (approval/reimbursement status) in EU/Germany.
 This is a simplified educational tool—always consult full guidelines and a multidisciplinary team for clinical decisions.
 """)
 
-# Genetic Testing Section (Global)
+# Global Sections
 st.subheader("Genetic/Biomarker Testing Recommendations (EAU 2025)")
 st.markdown("""
 - **Germline Testing**: Offer to all metastatic patients and those with relevant family history (strong).
 - **Somatic Testing**: Offer to metastatic/CRPC patients for HRR genes (BRCA1/2 etc.) and MMR/MSI (strong).
-- Implications: HRR+ → PARP inhibitors; MSI-high → pembrolizumab (rare).
-- In BCR: Consider if progression to metastatic expected or for counselling.
+- Implications: HRR+ → PARP inhibitors (e.g., olaparib 300 mg BID); MSI-high → pembrolizumab (rare).
 """)
 
 if st.checkbox("Show genetic testing result (for therapy personalization)"):
@@ -29,17 +28,14 @@ if st.checkbox("Show genetic testing result (for therapy personalization)"):
 else:
     genetic_result = "Not tested / Unknown"
 
-# PSMA PET Imaging Section (Global)
 st.subheader("Imaging Recommendations - Focus on PSMA PET/CT (EAU 2025)")
 st.markdown("""
 - **Tracers**: ⁶⁸Ga-PSMA-11 or ¹⁸F-PSMA-1007 (approved EU/Germany).
-- **Staging**: Strongly recommended in high-risk/unfavorable intermediate; superior to conventional.
-- **BCR**: Strongly recommend at low PSA (0.2–1.0 ng/mL) to localize recurrence and guide therapy.
-- **Metastatic/CRPC**: Essential for volume, response, and ¹⁷⁷Lu-PSMA eligibility.
-- **German Context**: Reimbursed in indicated settings.
+- **BCR**: Strongly recommend early (PSA ≥0.2–0.5 ng/mL post-RP).
+- Detection rates: ~50% at PSA <0.5, ~80% at 0.5–1.0, >95% at >2.0 ng/mL.
 """)
 
-if st.checkbox("Show PSMA PET/CT result (for staging/therapy personalization)"):
+if st.checkbox("Show PSMA PET/CT result (for therapy personalization)"):
     psma_status = st.selectbox(
         "PSMA PET/CT Findings:",
         ["Not performed / Unknown", "No detectable disease", "Local recurrence only", "Oligorecurrence (1–5 lesions)", "Polymetastatic (>5 lesions or visceral)", "PSMA-positive (eligible for radioligand therapy)", "PSMA-negative/low (not eligible for Lu-177)"],
@@ -48,19 +44,33 @@ if st.checkbox("Show PSMA PET/CT result (for staging/therapy personalization)"):
 else:
     psma_status = "Not performed / Unknown"
 
-# Step 1: Disease Extent
+# Guided Pathway Start
+st.header("Step 1: Select Current Disease Stage")
 disease_extent = st.selectbox(
-    "Select Disease Extent/Stage:",
-    ["Localized (cT1-2, N0, M0)", "Locally Advanced (cT3-4 or N1, M0)", "Metastatic (M1)", "Biochemical Recurrence (BCR) after curative local therapy"]
+    "Disease Extent/Stage:",
+    ["Initial Diagnosis / Localized Disease", "Locally Advanced", "Metastatic (M1)", "Biochemical Recurrence (BCR) after curative local therapy"]
 )
 
-if disease_extent in ["Localized (cT1-2, N0, M0)", "Locally Advanced (cT3-4 or N1, M0)"]:
-    # Simplified other sections
-    st.write("Refer to previous versions for detailed localized/locally advanced pathways.")
+recommendations = []  # Collect for final pathway summary
+
+if disease_extent == "Initial Diagnosis / Localized Disease":
+    st.write("For detailed risk stratification and therapies (AS, RP, RT ± ADT), refer to EAU risk groups.")
+    recommendations.append("Curative intent: Active Surveillance (low-risk) or RP/RT ± short ADT (higher risk).")
+
+elif disease_extent == "Locally Advanced":
+    recommendations.append("Multimodal: EBRT (76-78 Gy or hypofractionated) + long-term ADT (2-3 years).")
 
 elif disease_extent == "Metastatic (M1)":
-    # Simplified
-    st.write("Refer to previous versions for mHSPC/mCRPC pathways.")
+    androgen_status = st.selectbox("Androgen Status:", ["Hormone-Sensitive (mHSPC)", "Castration-Resistant (mCRPC)"])
+    if androgen_status == "Hormone-Sensitive (mHSPC)":
+        recommendations.append("""
+        - Backbone: ADT (GnRH agonist e.g., leuprolide 22.5 mg/3 mo SC or antagonist e.g., degarelix 240 mg loading/80 mg monthly).
+        - Intensification: + ARPI (apalutamide 240 mg PO daily; or enzalutamide 160 mg PO daily; or darolutamide 600 mg PO BID; or abiraterone 1000 mg PO daily + prednisone 5 mg daily) ± docetaxel 75 mg/m² IV q3w x6 cycles.
+        """)
+    else:
+        recommendations.append("""
+        - Continue ADT + sequence: ARPI switch (doses as above), cabazitaxel 20-25 mg/m² IV q3w, or ¹⁷⁷Lu-PSMA-617 7.4 GBq IV q6w x4-6 if PSMA+.
+        """)
 
 elif disease_extent == "Biochemical Recurrence (BCR) after curative local therapy":
     prior_therapy = st.selectbox(
@@ -68,102 +78,83 @@ elif disease_extent == "Biochemical Recurrence (BCR) after curative local therap
         ["Radical Prostatectomy (RP)", "Primary Radiotherapy (EBRT or Brachytherapy)"]
     )
     
-    st.subheader("BCR Management Recommendations (EAU 2025 / German S3)")
-    st.markdown("""
-    - **Definitions**: Post-RP: PSA ≥0.2 ng/mL + rising. Post-RT: Nadir + 2 ng/mL (Phoenix).
-    - **Imaging**: Strongly recommend early PSMA PET/CT (PSA 0.2–1.0 ng/mL) to guide therapy.
-    """)
+    current_psa = st.number_input(
+        "Current PSA (ng/mL)",
+        min_value=0.0,
+        max_value=1000.0,
+        value=0.5,
+        step=0.01,
+        format="%.2f"
+    )
     
-    if psma_status == "Not performed / Unknown":
-        st.info("Perform PSMA PET/CT to classify recurrence type and personalize therapy.")
+    if psma_status == "Not performed / Unknown" and current_psa >= 0.2:
+        st.info("Strongly recommend PSMA PET/CT now for localization and guidance.")
     
-    # New: BCR Risk Stratification
-    st.subheader("EAU BCR Risk Stratification (2025)")
-    st.markdown("""
-    Used when no metastases detectable (M0) to guide intensity of salvage/local therapy.
-    """)
-    
+    # BCR Risk Stratification
+    st.subheader("EAU BCR Risk Stratification")
     bcr_risk = None
     if prior_therapy == "Radical Prostatectomy (RP)":
         psadt = st.selectbox("PSA Doubling Time (PSADT):", ["> 12 months", "≤ 12 months"])
-        isup = st.selectbox("Pathological ISUP Grade Group:", ["1–3 (<4)", "4–5 (≥4)"])
-        
-        if psadt == "> 12 months" and isup == "1–3 (<4)":
+        isup = st.selectbox("Pathological ISUP Grade Group:", ["1–3", "4–5"])
+        if psadt == "> 12 months" and isup == "1–3":
             bcr_risk = "Low-Risk BCR"
         else:
             bcr_risk = "High-Risk BCR"
-    
-    else:  # Post-RT
-        interval = st.selectbox("Interval to BCR (from end of RT):", ["> 18 months", "≤ 18 months"])
-        isup = st.selectbox("Initial Biopsy ISUP Grade Group:", ["1–3 (<4)", "4–5 (≥4)"])
-        
-        if interval == "> 18 months" and isup == "1–3 (<4)":
+    else:
+        interval = st.selectbox("Interval to BCR (months from RT end):", ["> 18", "≤ 18"])
+        isup = st.selectbox("Initial Biopsy ISUP Grade Group:", ["1–3", "4–5"])
+        if interval == "> 18" and isup == "1–3":
             bcr_risk = "Low-Risk BCR"
         else:
             bcr_risk = "High-Risk BCR"
     
     if bcr_risk:
-        st.write(f"**EAU Classification: {bcr_risk}**")
-        if bcr_risk == "High-Risk BCR":
-            st.warning("Higher risk of progression – consider intensified therapy.")
-        else:
-            st.success("Lower risk – monitoring or less intensive therapy often sufficient.")
+        recommendations.append(f"**BCR Risk: {bcr_risk}**")
     
-    # Personalized Recommendations
-    st.subheader("Recommended Pathways")
+    # Pathway Recommendations with Doses
+    st.subheader("Recommended Therapy Pathway")
     
-    if "No detectable disease" in psma_status or "Local recurrence only" in psma_status:
-        st.write("**PSMA PET/CT: No distant metastases (M0) / local only**")
-        if prior_therapy == "Radical Prostatectomy (RP)":
-            st.write("""
-            - **Early salvage RT** (eSRT) to prostate bed (± pelvic nodes if risk) strongly recommended (best if PSA <0.5 ng/mL).
-            - **Intensity based on risk**:
-            """)
-            if bcr_risk == "Low-Risk BCR":
-                st.write("- sRT alone sufficient (no ADT).")
-            else:
-                st.write("- sRT + short-term ADT (6 months GnRH agonist/antagonist).")
-            st.write("""
-            - Hypofractionated regimens possible.
-            - **Zulassung**: Standard salvage RT reimbursed; ADT approved.
-            """)
+    if "No detectable" in psma_status or "Local" in psma_status:
+        if current_psa <= 0.5:
+            recommendations.append("Optimal timing (PSA ≤0.5): Highest cure chance with salvage therapy.")
+        elif current_psa > 1.0:
+            recommendations.append(f"PSA {current_psa} >1.0: Consider adding systemic therapy due to risk of occult disease.")
         
-        else:  # Post-RT
-            st.write("""
-            - No standard salvage RT to prostate (prior irradiated).
-            - **Monitoring** preferred, especially in Low-Risk BCR.
-            - Salvage local therapies (RP, brachy, HIFU, cryo) only in highly selected patients (high morbidity).
-            - If High-Risk BCR and symptomatic/progression: Consider early systemic therapy.
+        if prior_therapy == "Radical Prostatectomy (RP)":
+            recommendations.append("""
+            - Early salvage RT (66-72 Gy to prostate bed ± pelvic nodes; hypofractionated options e.g., 62.5 Gy/25 fx).
+            - If High-Risk BCR: + ADT (GnRH agonist/antagonist, 6 months; e.g., leuprolide 22.5 mg/3 mo).
             """)
+        else:
+            recommendations.append("Monitoring preferred (esp. Low-Risk); salvage local (RP/HIFU) selected cases only.")
     
     elif "Oligorecurrence" in psma_status:
-        st.write("**PSMA PET/CT: Oligorecurrence (1–5 lesions)**")
-        st.write("""
-        - **Metastasis-directed therapy (MDT)**: SBRT or surgery to all lesions (improves PFS).
-        - Combine with salvage RT (post-RP) or systemic therapy (ADT ± ARPI) if High-Risk BCR or short PSADT.
-        - Increasingly recommended in fit patients.
-        - **Zulassung**: MDT widely practiced/reimbursed in centers; off-label for some indications.
+        recommendations.append("""
+        - Metastasis-directed therapy (MDT): SBRT (e.g., 30-50 Gy in 3-5 fx per lesion).
+        - If High-Risk: + systemic ADT ± ARPI (apalutamide 240 mg daily; enzalutamide 160 mg daily; darolutamide 600 mg BID).
         """)
     
     elif "Polymetastatic" in psma_status:
-        st.write("**PSMA PET/CT: Polymetastatic**")
-        st.write("- Treat as metastatic hormone-sensitive PCa (mHSPC): ADT + ARPI ± docetaxel (see Metastatic section).")
-    
-    # Additional for very high-risk M0
-    if bcr_risk == "High-Risk BCR" and "No detectable" in psma_status:
-        st.write("""
-        - If very short PSADT (≤9–12 months) and PSA above threshold: Consider intensification with ARPI (e.g., enzalutamide ± ADT).
-        - **Zulassung**: Enzalutamide approved for high-risk nmCRPC (PROSPER); applicability with negative PSMA PET limited.
+        recommendations.append("""
+        - Treat as mHSPC: ADT + ARPI (doses as above) ± docetaxel 75 mg/m² q3w x6.
         """)
     
-    # Genetic note
-    if "HRR mutated" in genetic_result:
-        st.write("If progression to mCRPC: Prioritize PARP inhibitors.")
+    if bcr_risk == "High-Risk BCR" and "No detectable" in psma_status and current_psa > 0.5:
+        recommendations.append("""
+        - Consider ARPI for high-risk nmCRPC (apalutamide 240 mg daily; darolutamide 600 mg BID; enzalutamide 160 mg daily) if PSADT ≤10 months.
+        - Zulassung: Approved EMA/Germany for nmCRPC.
+        """)
+
+# Final Personalized Decision Pathway Summary
+st.header("Your Personalized Decision Pathway Summary")
+if recommendations:
+    for rec in recommendations:
+        st.markdown(f"- {rec}")
+    st.success("Discuss with MDT; dosages are standard—adjust per patient factors (e.g., renal/hepatic).")
+else:
+    st.info("Select stage and inputs to generate pathway.")
 
 st.markdown("---")
 st.info("""
-References: 
-- EAU Prostate Cancer Guidelines 2025 (uroweb.org/guidelines/prostate-cancer).
-- German S3-Leitlinie Prostatakarzinom Version 8.1 (August 2025).
-Always consult latest versions and MDT.
+References: EAU Prostate Cancer Guidelines 2025; German S3-Leitlinie Version 8.1 (Aug 2025).
 """)
