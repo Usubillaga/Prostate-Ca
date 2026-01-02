@@ -1,14 +1,14 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# --- 1. Page Configuration ---
+# --- 1. Configuración de la Página ---
 st.set_page_config(
     page_title="Prostate Cancer Algorithm 2026",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Translations & Content ---
+# --- 2. Traducciones y Contenido ---
 translations = {
     "English": {
         "title": "Prostate Cancer Treatment Algorithm (EAU/S3 2026)",
@@ -18,7 +18,7 @@ translations = {
         "dos_donts_title": "✅ Dos & ⛔ Don'ts",
         "approval_title": "Zulassung (Approval & Reimbursement)",
         
-        # Labels
+        # Etiquetas
         "genetic_label": "Genetic Testing Results",
         "extent_label": "Disease Extent",
         "psa_label": "PSA Level (ng/ml)",
@@ -30,7 +30,7 @@ translations = {
         "psadt_label": "PSA Doubling Time (PSADT)",
         "primary_tx_label": "Prior Primary Therapy",
         
-        # Options
+        # Opciones
         "isup_opts": ["ISUP 1 (Gleason 6)", "ISUP 2 (Gleason 3+4)", "ISUP 3 (Gleason 4+3)", "ISUP 4 (Gleason 8)", "ISUP 5 (Gleason 9-10)"],
         "t_opts": ["cT1", "cT2a", "cT2b", "cT2c", "cT3", "cT4"],
         "n_stages": ["cN0 (Nodes Negative)", "cN1 (Regional Nodes Positive)"],
@@ -38,7 +38,7 @@ translations = {
         "volumes": ["Low Volume", "High Volume (Visceral or ≥4 bone mets)"],
         "primary_tx_opts": ["Radical Prostatectomy (RP)", "Radiotherapy (EBRT)"],
         
-        # Content - Localized
+        # Contenido - Localizado
         "rec_low": """
         **Active Surveillance (AS)**
         - **Protocol:** PSA every 6mo, DRE annually, mpMRI re-staging at 12-18mo.
@@ -49,7 +49,7 @@ translations = {
         ⛔ **Don't:** Offer AS to patients with **BRCA2** mutations without discussing increased risk of upgrading (consider RP).
         """,
         
-        # Content - Locally Advanced
+        # Contenido - Localmente Avanzado
         "rec_la_cn0": """
         **Locally Advanced cT3-4 cN0 (High Risk)**
         *Multimodal therapy is mandatory.*
@@ -225,7 +225,7 @@ translations = {
         - **Lokal:** **RT der Prostata** verbessert Überleben (STAMPEDE H).
         - **Optionen:**
           - **Apalutamid:** $240$ mg (TITAN).
-          - **Enzalutamide:** $160$ mg (ARCHES).
+          - **Enzalutamid:** $160$ mg (ARCHES).
           - **Abirateron:** $1000$ mg (LATITUDE - High Risk).
         """,
         "approval_mhspc": """
@@ -369,7 +369,7 @@ translations = {
 t_opts_map = ["Localized (cT1-2)", "Locally Advanced (cT3-4 / cN1)", "Biochemical Recurrence (BCR)", "Metastatic (M1)"]
 gen_opts = ["Not Performed/Negative", "BRCA1/2 Positive", "HRR Other Positive", "MMR Deficient"]
 
-# --- 3. Helper Functions ---
+# --- 3. Funciones Auxiliares ---
 def calculate_risk_group(psa, isup_index, t_stage_index):
     isup = isup_index + 1
     if psa > 20 or isup >= 4 or t_stage_index >= 3: return "high"
@@ -379,7 +379,7 @@ def calculate_risk_group(psa, isup_index, t_stage_index):
 def q(text):
     return f'"{text}"'
 
-# --- 4. Sidebar Logic ---
+# --- 4. Lógica de la Barra Lateral ---
 with st.sidebar:
     st.header("⚙️ Configuration")
     lang_choice = st.selectbox("Language / Sprache / Idioma", ["English", "Deutsch", "Español"])
@@ -389,7 +389,7 @@ with st.sidebar:
     genetic_status = st.selectbox(t["genetic_label"], gen_opts)
     disease_extent = st.selectbox(t["extent_label"], t_opts_map)
     
-    # Conditional Sidebar Inputs
+    # Inputs Condicionales
     calc_risk_key = None
     n_stage = None
     m_state = None
@@ -397,7 +397,7 @@ with st.sidebar:
     psadt = None
     primary_tx = None
     
-    if disease_extent == t_opts_map[0]: # Localized
+    if disease_extent == t_opts_map[0]: # Localizado
         st.subheader("Calculator")
         in_psa = st.number_input(t["psa_label"], value=5.0, step=0.1)
         in_isup = st.selectbox(t["isup_label"], t["isup_opts"])
@@ -406,7 +406,7 @@ with st.sidebar:
         t_idx = t["t_opts"].index(in_tstage)
         calc_risk_key = calculate_risk_group(in_psa, isup_idx, t_idx)
         
-    elif disease_extent == t_opts_map[1]: # Locally Advanced
+    elif disease_extent == t_opts_map[1]: # Localmente Avanzado
         st.subheader("Staging")
         n_stage = st.radio(t["n_stage_label"], t["n_stages"])
         
@@ -415,74 +415,58 @@ with st.sidebar:
         primary_tx = st.radio(t["primary_tx_label"], t["primary_tx_opts"])
         psadt = st.number_input(t["psadt_label"] + " (months)", value=10.0, step=1.0)
 
-    elif disease_extent == t_opts_map[3]: # Metastatic
+    elif disease_extent == t_opts_map[3]: # Metastásico
         st.subheader("Metastatic Details")
         m_state = st.radio(t["meta_state_label"], t["m_states"])
         if m_state == t["m_states"][0]:
             volume = st.radio(t["volume_label"], t["volumes"])
 
-# --- 5. Main Content ---
+# --- 5. Contenido Principal ---
 st.title(t["title"])
 st.markdown(t["description"])
 
-# --- A. LOCALIZED ---
+# --- A. LOCALIZADO ---
 if disease_extent == t_opts_map[0]:
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Prostate_cancer_Gleason_score.jpg/640px-Prostate_cancer_Gleason_score.jpg", caption="ISUP/Gleason", use_column_width=True)
-    with col2:
-        st.subheader(t["rec_title"])
-        if calc_risk_key == "low":
-            st.info(t["rec_low"])
-            st.success(t["dos_low"])
-        else:
-            st.warning("**Intermediate/High Risk:** Radical Prostatectomy (RP) or EBRT+ADT.")
+    st.subheader(t["rec_title"])
+    if calc_risk_key == "low":
+        st.info(t["rec_low"])
+        st.success(t["dos_low"])
+    else:
+        st.warning("**Intermediate/High Risk:** Radical Prostatectomy (RP) or EBRT+ADT.")
 
-# --- B. LOCALLY ADVANCED ---
+# --- B. LOCALMENTE AVANZADO ---
 elif disease_extent == t_opts_map[1]:
     st.header(t_opts_map[1])
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg/640px-Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg.png", caption="T3/T4 & Nodes", use_column_width=True)
-    with col2:
-        st.subheader(t["rec_title"])
-        
-        # Split Logic: cN0 vs cN1
-        if n_stage == t["n_stages"][1]: # cN1
-            st.error(t["rec_la_cn1"])
-            st.markdown(f"#### {t['dos_donts_title']}")
-            st.success(t["dos_la"])
-            st.markdown("---")
-            st.warning(f"⚖️ {t['approval_la']}")
-        else: # cN0 High Risk
-            st.warning(t["rec_la_cn0"])
-            st.info("✅ **Tip:** PSMA-PET is highly recommended for T3/T4 to rule out metastases before curative therapy.")
+    st.subheader(t["rec_title"])
+    
+    # Lógica Split: cN0 vs cN1
+    if n_stage == t["n_stages"][1]: # cN1
+        st.error(t["rec_la_cn1"])
+        st.markdown(f"#### {t['dos_donts_title']}")
+        st.success(t["dos_la"])
+        st.markdown("---")
+        st.warning(f"⚖️ {t['approval_la']}")
+    else: # cN0 High Risk
+        st.warning(t["rec_la_cn0"])
+        st.info("✅ **Tip:** PSMA-PET is highly recommended for T3/T4.")
 
 # --- C. BIOCHEMICAL RECURRENCE (BCR) ---
 elif disease_extent == t_opts_map[2]:
     st.header(t_opts_map[2])
     
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        
-        st.image("https://upload.wikimedia.org/wikipedia/commons/6/6d/Bone_scan_Prostate_Cancer.jpg", caption="Diagnostics: PSMA-PET", use_column_width=True)
+    # High Risk BCR (EMBARK) Check
+    if psadt < 9.0:
+        st.error(t["rec_bcr_high_risk"])
     
-    with col2:
-        # High Risk BCR (EMBARK) Check
-        if psadt < 9.0:
-            st.error(t["rec_bcr_high_risk"])
+    # Post-RP vs Post-RT
+    if primary_tx == t["primary_tx_opts"][0]: # RP
+        st.info(t["rec_bcr_rp"])
+    else: # RT
+        st.warning(t["rec_bcr_rt"])
         
-        # Post-RP vs Post-RT
-        if primary_tx == t["primary_tx_opts"][0]: # RP
-            st.info(t["rec_bcr_rp"])
-        else: # RT
-            st.warning(t["rec_bcr_rt"])
-            
-        st.success("✅ **Zulassung:** Enzalutamide is approved for High Risk BCR (PSADT <9 mo) with or without ADT.")
+    st.success("✅ **Zulassung:** Enzalutamide is approved for High Risk BCR (PSADT <9 mo) with or without ADT.")
 
-# --- D. METASTATIC ---
+# --- D. METASTÁSICO ---
 elif disease_extent == t_opts_map[3]:
     if m_state == t["m_states"][0]: # mHSPC
         st.header("mHSPC Management")
@@ -499,7 +483,7 @@ elif disease_extent == t_opts_map[3]:
         st.info(t["rec_mcrpc"])
         st.warning(t["dos_mcrpc"])
 
-# --- 6. Mermaid Visual Flow ---
+# --- 6. Flujo Visual Mermaid ---
 st.markdown("---")
 st.subheader("Visual Decision Pathway")
 
