@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 # --- 1. Configuración de la Página ---
 st.set_page_config(
-    page_title="Prostate Cancer Algorithm 2026 (S3/EAU)",
+    page_title="Prostate Cancer Algorithm 2025 (S3/EAU)",
     layout="wide",
     initial_sidebar_state="expanded"
 )
