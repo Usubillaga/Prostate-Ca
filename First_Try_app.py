@@ -436,7 +436,7 @@ if disease_extent == t["extent_opts"][0]:
         else: # High
             st.error(f"🔴 **{display_risk}**")
             st.write(t["rec_multimodal"])
-            [Image of prostate cancer radiotherapy planning]
+            
 
 # --- RESULT: METASTATIC ---
 else:
@@ -449,7 +449,7 @@ else:
         
         if is_high_volume:
             st.error(t["rec_mhspc_high"])
-            [Image of metastatic prostate cancer mechanism of action docetaxel]
+            
         else:
             st.success(t["rec_mhspc_low"])
             
@@ -476,7 +476,7 @@ else:
         with col2:
             st.markdown("### 2. Teragnosis (PSMA)")
             st.write(t["rec_mcrpc_lutetium"])
-            [Image of psma pet scan theranostics lutetium]
+            
 
         with col3:
             st.markdown("### 3. Precision (BRCA)")
