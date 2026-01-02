@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 
 # --- 1. Configuración de la Página ---
 st.set_page_config(
-    page_title="Prostate Cancer Algorithm 2025 (S3/EAU)",
+    page_title="Prostate Cancer Algorithm 2026 (S3/EAU)",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -85,7 +85,7 @@ translations = {
     },
     
     "Español": {
-        "title": "Algoritmo Cáncer de Próstata (S3 Alemania / EAU 2025)",
+        "title": "Algoritmo Cáncer de Próstata (S3 Alemania / EAU 2026)",
         "config_title": "Configuración del Paciente",
 
         # Screening Note
