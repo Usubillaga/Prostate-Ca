@@ -85,7 +85,7 @@ translations = {
     },
     
     "Español": {
-        "title": "Algoritmo Cáncer de Próstata (S3 Alemania / EAU 2026)",
+        "title": "Algoritmo Cáncer de Próstata (S3 Alemania / EAU 2025)",
         "config_title": "Configuración del Paciente",
 
         # Screening Note
