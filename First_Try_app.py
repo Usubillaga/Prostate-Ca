@@ -1,17 +1,22 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# --- 1. Page Configuration & Translations ---
-st.set_page_config(page_title="Prostate Cancer Algorithm 2025", layout="wide")
+# --- 1. Page Configuration ---
+st.set_page_config(
+    page_title="Prostate Cancer Algorithm 2026",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
+# --- 2. Translations & Content ---
 translations = {
     "English": {
-        "title": "Prostate Cancer Treatment Algorithm (EAU/S3 2025)",
-        "description": "Interactive tool based on **EAU Guidelines 2025** and **German S3-Leitlinie (v8.1)**.",
+        "title": "Prostate Cancer Treatment Algorithm (EAU/S3 2026)",
+        "description": "Clinical Decision Support based on **EAU Guidelines 2025** and **German S3-Leitlinie (v8.1)**.",
         "sidebar_title": "Patient Configuration",
         "rec_title": "Therapy Recommendations",
-        "dos_donts_title": "Clinical Dos & Don'ts",
-        "approval_title": "Zulassung (Approval Status)",
+        "dos_donts_title": "✅ Dos & ⛔ Don'ts",
+        "approval_title": "Zulassung (Approval & Reimbursement)",
         
         # Labels
         "genetic_label": "Genetic Testing Results",
@@ -22,13 +27,16 @@ translations = {
         "n_stage_label": "N-Stage (Regional Nodes)",
         "meta_state_label": "Metastatic State",
         "volume_label": "Disease Volume (CHAARTED)",
+        "psadt_label": "PSA Doubling Time (PSADT)",
+        "primary_tx_label": "Prior Primary Therapy",
         
-        # Select Options
+        # Options
         "isup_opts": ["ISUP 1 (Gleason 6)", "ISUP 2 (Gleason 3+4)", "ISUP 3 (Gleason 4+3)", "ISUP 4 (Gleason 8)", "ISUP 5 (Gleason 9-10)"],
         "t_opts": ["cT1", "cT2a", "cT2b", "cT2c", "cT3", "cT4"],
         "n_stages": ["cN0 (Nodes Negative)", "cN1 (Regional Nodes Positive)"],
         "m_states": ["mHSPC (Hormone Sensitive)", "mCRPC (Castration Resistant)"],
         "volumes": ["Low Volume", "High Volume (Visceral or ≥4 bone mets)"],
+        "primary_tx_opts": ["Radical Prostatectomy (RP)", "Radiotherapy (EBRT)"],
         
         # Content - Localized
         "rec_low": """
@@ -42,188 +50,358 @@ translations = {
         """,
         
         # Content - Locally Advanced
-        "rec_n1": """
-        **Multimodal Therapy (STAMPEDE Protocol)**
-        1. **ADT:** LHRH agonist/antagonist for 3 years.
-        2. **Radiotherapy:** EBRT to prostate + whole pelvis (dose escalated).
-        3. **Abiraterone:** $1000$ mg OD + Prednisone $5$ mg OD for 2 years.
+        "rec_la_cn0": """
+        **Locally Advanced cT3-4 cN0 (High Risk)**
+        *Multimodal therapy is mandatory.*
+        
+        **Option A: Radiotherapy (Preferred for older/comorbid)**
+        - **EBRT:** IMRT/VMAT dose-escalated ($74$-$80$ Gy) to prostate/seminal vesicles.
+        - **ADT:** Long-term ADT (LHRH agonist/antagonist) for **2-3 years**.
+        
+        **Option B: Surgery (Selected Patients)**
+        - **RP:** Radical Prostatectomy + ePLND (extended lymph node dissection).
+        - **Adjuvant:** Likely need for adjuvant/salvage RT +/- ADT based on pathology (pT3, R1, pN+).
         """,
-        "dos_n1": """
-        ✅ **Do:** Ensure bone density protection (Calcium/Vit D) during long-term ADT.
-        ⛔ **Don't:** Use Abiraterone as monotherapy (must be combined with ADT).
+        "rec_la_cn1": """
+        **Locally Advanced cN1 (Regional Nodal Disease)**
+        *STAMPEDE / High-Risk Protocol*
+        
+        1. **ADT:** Continuous LHRH agonist/antagonist for **3 years**.
+        2. **Radiotherapy:** EBRT to Prostate + Whole Pelvis ($46$-$50$ Gy pelvic, boost prostate to $74$+ Gy).
+        3. **Abiraterone:** $1000$ mg OD + Prednisone $5$ mg OD for **2 years**.
         """,
-        "approval_n1": """
-        🇪🇺 **EMA:** Abiraterone approved for high-risk mHSPC, but **not explicitly** for M0/cN1 locally advanced disease in the label.
-        🇩🇪 **Germany:** Use in M0/cN1 is based on STAMPEDE data (Level 1 Evidence) but is technically **Off-Label**. Requires individual funding request (Kostenübernahme) with insurance.
+        "dos_la": """
+        ✅ **Do:** Discuss Abiraterone addition for cN1 (Level 1 Evidence: STAMPEDE).
+        ✅ **Do:** Perform staging with **PSMA-PET/CT** if available (superior sensitivity for M1).
+        ⛔ **Don't:** Perform monotherapy (Surgery only or RT only) for cT3-4 disease.
+        """,
+        "approval_la": """
+        🇪🇺 **EMA:** Abiraterone approved for mHSPC, but label varies for M0/cN1.
+        🇩🇪 **Germany:** Use of Abiraterone in M0/cN1 is based on STAMPEDE but is **Off-Label**. Apply for reimbursement (Kostenübernahme).
         """,
         
-        # Content - mHSPC
-        "rec_mhspc_high": """
-        **Triple Therapy (Standard of Care)**
-        - **ADT:** Continuous.
-        - **Docetaxel:** $75$ $\\text{mg/m}^2$ q3w for 6 cycles.
-        - **ARPI:** - **Darolutamide:** $600$ mg BID.
-            - *OR* **Abiraterone:** $1000$ mg OD + Prednisone.
+        # BCR
+        "rec_bcr_rp": """
+        **Post-RP Recurrence (PSA >0.2 ng/ml)**
+        - **Diagnostics:** Perform **PSMA-PET/CT** (PSA >0.2 is threshold for detection).
+        - **Salvage RT:** Radiation to prostate bed +/- pelvic nodes.
+        - **ADT Addition:**
+            - PSA <0.7: sRT alone often sufficient.
+            - PSA >0.7 or High Grade: Add Short-term ADT (6 mo).
         """,
-        "dos_mhspc": """
-        ✅ **Do:** Offer Triple Therapy to all fit patients with High Volume disease (ARASENS/PEACE-1).
-        ⛔ **Don't:** Use Docetaxel in Low Volume disease unless symptomatic (no OS benefit).
+        "rec_bcr_rt": """
+        **Post-RT Recurrence (Nadir + 2 ng/ml)**
+        - **Diagnostics:** PSMA-PET/CT + Prostate Biopsy mandatory to confirm local recurrence vs distant.
+        - **Therapy:** Local Salvage (RP, HIFU, Cryo, Brachy) only for highly selected patients. Systemic ADT is standard.
+        """,
+        "rec_bcr_high_risk": """
+        **High Risk BCR (EMBARK Definition)**
+        - *Criteria:* PSADT < 9 months.
+        - **Therapy:** **Enzalutamide** ($160$ mg) + ADT (Leuprolide) showed superior MFS vs ADT alone.
+        - **Zulassung:** Enzalutamide approved (FDA/EMA) for High-Risk BCR.
+        """,
+        
+        # mHSPC
+        "rec_mhspc_high": """
+        **High Volume mHSPC (Triple Therapy)**
+        - **Standard:** ADT + **Docetaxel** ($75$ $\\text{mg/m}^2$ x6) + **Abiraterone** OR **Darolutamide**.
+        - **Approvals:** - Darolutamide (ARASENS).
+          - Abiraterone (PEACE-1).
+        """,
+        "rec_mhspc_low": """
+        **Low Volume mHSPC (Doublet Therapy)**
+        - **Systemic:** ADT + ARPI.
+        - **Local:** **Radiotherapy to Prostate** (55Gy/20fx) improves Survival (STAMPEDE Arm H).
+        - **Options:**
+          - **Apalutamide:** $240$ mg OD (TITAN).
+          - **Enzalutamide:** $160$ mg OD (ARCHES/ENZAMET).
+          - **Abiraterone:** $1000$ mg + Pred (LATITUDE - High Risk).
         """,
         "approval_mhspc": """
-        🇪🇺/🇩🇪 **Zulassung:**
-        - **Darolutamide:** Approved in combination with Docetaxel+ADT.
-        - **Abiraterone:** Approved for high-risk mHSPC (LATITUDE criteria).
-        - **Enzalutamide/Apalutamide:** Approved for mHSPC (usually doublet with ADT).
+        ✅ **Apalutamide (TITAN):** Approved for mHSPC (regardless of volume).
+        ✅ **Enzalutamide (ARCHES):** Approved for mHSPC.
+        ✅ **Darolutamide:** Approved for mHSPC in combo with Docetaxel.
+        ⚠️ **Abiraterone:** Approved for *High Risk* mHSPC (LATITUDE). Low volume use may be off-label in DE.
         """,
         
-        # Content - mCRPC
+        # mCRPC
         "rec_mcrpc": """
-        **Sequence Therapy (Switch Mechanism)**
-        - **If post-ADT only:** Enzalutamide ($160$ mg OD) or Abiraterone.
-        - **If post-ARPI:** Docetaxel ($75$ $\\text{mg/m}^2$).
-        - **If BRCA1/2+:** Olaparib ($300$ mg BID) or Talazoparib ($0.5$ mg OD).
-        - **If PSMA+:** Lutetium-177 ($7.4$ GBq q6w x 6).
+        **mCRPC Sequence**
+        - **Target:** Change mechanism of action (e.g., ADT+Chemo $\\rightarrow$ ARPI).
+        - **Precision:** - **BRCA1/2:** Olaparib ($300$mg BID) or Talazoparib.
+          - **PSMA+:** Lu-177-PSMA-617 ($7.4$ GBq).
         """,
         "dos_mcrpc": """
-        ✅ **Do:** Perform PSMA-PET/CT before deciding on Lutetium therapy.
-        ⛔ **Don't:** Sequence ARPI after ARPI (e.g., Enzalutamide directly after Abiraterone) due to cross-resistance (CARD trial).
-        ⛔ **Don't:** Use Radium-223 in patients with visceral metastases or bulky lymph nodes.
-        """,
-         "approval_mcrpc": """
-        🇪🇺/🇩🇪 **Zulassung:**
-        - **Olaparib:** Approved for BRCA1/2+ mCRPC (monotherapy or combo with Abi).
-        - **Lutetium-177:** Approved for PSMA+ mCRPC after ARPI and Chemo (VISION).
+        ⛔ **Don't:** Give Enzalutamide after Abiraterone (cross-resistance). Switch to Taxane or Lutetium.
         """
     },
     
     "Deutsch": {
         "title": "Prostatakarzinom Behandlungsalgorithmus",
-        "description": "Interaktives Tool basierend auf **EAU 2025** und **S3-Leitlinie (v8.1)**.",
+        "description": "Klinische Entscheidungshilfe basierend auf **EAU 2025** und **Deutscher S3-Leitlinie (v8.1)**.",
         "sidebar_title": "Konfiguration",
-        "rec_title": "Therapieempfehlungen & Dosierung",
-        "dos_donts_title": "Caveats (Do's & Don'ts)",
+        "rec_title": "Therapieempfehlungen",
+        "dos_donts_title": "Dos & Don'ts",
         "approval_title": "Zulassung & Erstattung",
         
-        "genetic_label": "Genetische Testung",
-        "extent_label": "Krankheitsstadium",
-        "psa_label": "PSA-Wert (ng/ml)",
-        "isup_label": "ISUP Grad",
-        "tstage_label": "T-Stadium",
-        "n_stage_label": "N-Stadium",
-        "meta_state_label": "Status",
-        "volume_label": "Volumen (CHAARTED)",
+        "genetic_label": "Genetik",
+        "extent_label": "Stadium / Situation",
+        "psadt_label": "PSA-Verdopplungszeit (PSADT)",
+        "primary_tx_label": "Primärtherapie",
         
         "isup_opts": ["ISUP 1 (Gleason 6)", "ISUP 2 (Gleason 3+4)", "ISUP 3 (Gleason 4+3)", "ISUP 4 (Gleason 8)", "ISUP 5 (Gleason 9-10)"],
         "t_opts": ["cT1", "cT2a", "cT2b", "cT2c", "cT3", "cT4"],
-        "n_stages": ["cN0 (Negativ)", "cN1 (Positiv)"],
+        "n_stages": ["cN0 (Knoten negativ)", "cN1 (Regionäre Knoten positiv)"],
         "m_states": ["mHSPC (Hormonsensitiv)", "mCRPC (Kastrationsresistent)"],
         "volumes": ["Geringes Volumen", "Hohes Volumen (Viszeral od. ≥4 Knochenmet.)"],
+        "primary_tx_opts": ["Radikale Prostatektomie (RP)", "Strahlentherapie (EBRT)"],
 
         "rec_low": """
         **Aktive Überwachung (AS)**
-        - **Protokoll:** PSA alle 6 Mon, DRE jährlich, mpMRT Re-Staging nach 12-18 Mon.
-        - **Biopsie:** Bestätigungsbiopsie bei MRT-Progress oder PSA-Dichte >0,15.
+        - **Protokoll:** PSA alle 6 Mon, DRE jährlich, mpMRT alle 12-18 Mon.
+        - **Biopsie:** Bei PSA-Dichte >0,15 oder MRT-Progress.
         """,
         "dos_low": """
-        ✅ **Ja:** Strikte Einhaltung der Re-Biopsie-Intervalle.
-        ⛔ **Nein:** AS bei **BRCA2**-Mutation ohne Aufklärung über hohes Progressionsrisiko (RP erwägen).
+        ✅ **Ja:** Konsequente Re-Biopsien.
+        ⛔ **Nein:** AS bei **BRCA2** ohne Aufklärung über hohes Risiko (RP bevorzugen).
         """,
 
-        "rec_n1": """
-        **Multimodale Therapie (STAMPEDE-Arm)**
-        1. **ADT:** LHRH-Analogon für 3 Jahre.
-        2. **Strahlentherapie:** IMRT Prostata + pelvine Lymphabflusswege (dosis-eskaliert).
-        3. **Abirateron:** $1000$ mg OD + Prednison $5$ mg OD für 2 Jahre.
+        "rec_la_cn0": """
+        **Lokal Fortgeschritten cT3-4 cN0 (High Risk)**
+        *Multimodale Therapie obligatorisch.*
+        
+        **Option A: Strahlentherapie (Präferenz Ältere)**
+        - **EBRT:** IMRT/VMAT Prostata/Samenblasen ($74$-$80$ Gy).
+        - **ADT:** Langzeit-ADT für **2-3 Jahre**.
+        
+        **Option B: OP (Selektioniert)**
+        - **RP:** Prostatektomie + ePLND.
+        - **Adjuvant:** Oft adjuvante/Salvage RT nötig.
         """,
-        "dos_n1": """
-        ✅ **Ja:** Osteoprotektion (Calcium/Vit D) während der Langzeit-ADT sicherstellen.
-        ⛔ **Nein:** Abirateron als Monotherapie ohne ADT geben.
+        "rec_la_cn1": """
+        **Lokal Fortgeschritten cN1 (Regionäre Knoten)**
+        *STAMPEDE Protokoll*
+        
+        1. **ADT:** 3 Jahre.
+        2. **RT:** Prostata + Beckenlymphabfluss ($50$ Gy Becken, Boost Prostata).
+        3. **Abirateron:** $1000$ mg + Prednison für **2 Jahre**.
         """,
-        "approval_n1": """
-        🇪🇺 **EMA:** Abirateron ist für High-Risk mHSPC zugelassen, aber **nicht explizit** für M0/cN1 im Labelstext.
-        🇩🇪 **Deutschland:** Einsatz bei M0/cN1 basiert auf Level-1-Evidenz (STAMPEDE), ist aber formal **Off-Label**. Kostengutsprache bei der Kasse empfohlen.
+        "dos_la": """
+        ✅ **Ja:** Abirateron bei cN1 evaluieren (Level 1 Evidenz).
+        ✅ **Ja:** **PSMA-PET/CT** zum Staging (Ausschluss M1).
+        ⛔ **Nein:** Monotherapie (nur OP oder nur RT) bei cT3/4.
+        """,
+        "approval_la": """
+        🇪🇺 **EMA:** Abirateron Label deckt nicht explizit M0/cN1 ab.
+        🇩🇪 **Deutschland:** Einsatz bei cN1 ist **Off-Label**. Kostenübernahmeantrag empfohlen.
+        """,
+
+        "rec_bcr_rp": """
+        **Rezidiv nach RP (PSA >0,2 ng/ml)**
+        - **Diagnostik:** **PSMA-PET/CT** (empfohlen ab PSA >0,2).
+        - **Salvage-RT:** Bestrahlung Loge +/- Becken.
+        - **ADT:** Hinzufügen (6 Mon) wenn PSA >0,7 oder ISUP >3.
+        """,
+        "rec_bcr_rt": """
+        **Rezidiv nach RT (Nadir + 2)**
+        - **Diagnostik:** PSMA-PET + Biopsie zwingend zur Sicherung.
+        - **Therapie:** Lokale Salvage (RP/HIFU) nur in Expertenzentren. Sonst ADT.
+        """,
+        "rec_bcr_high_risk": """
+        **Hochrisiko-BCR (EMBARK)**
+        - *Kriterium:* PSADT < 9 Monate.
+        - **Therapie:** **Enzalutamid** + ADT zeigte überlegenes MFS.
+        - **Zulassung:** Enzalutamid ist für Hochrisiko-BCR zugelassen.
         """,
 
         "rec_mhspc_high": """
-        **Triple-Therapie (Standard of Care)**
-        - **ADT:** Kontinuierlich.
-        - **Docetaxel:** $75$ $\\text{mg/m}^2$ q3w für 6 Zyklen.
-        - **ARPI:** - **Darolutamid:** $600$ mg BID.
-            - *ODER* **Abirateron:** $1000$ mg OD + Prednison.
+        **Hohes Volumen mHSPC (Triple)**
+        - **Standard:** ADT + **Docetaxel** + **Abirateron** ODER **Darolutamide**.
+        - **Zulassung:** Darolutamid (ARASENS), Abirateron (PEACE-1).
         """,
-        "dos_mhspc": """
-        ✅ **Ja:** Triple-Therapie allen fitten Patienten mit hohem Volumen anbieten (ARASENS/PEACE-1).
-        ⛔ **Nein:** Docetaxel bei geringem Volumen (Low Volume) einsetzen (kein OS-Vorteil, nur Toxizität).
+        "rec_mhspc_low": """
+        **Geringes Volumen mHSPC (Doublet)**
+        - **Systemisch:** ADT + ARPI.
+        - **Lokal:** **RT der Prostata** verbessert Überleben (STAMPEDE H).
+        - **Optionen:**
+          - **Apalutamid:** $240$ mg (TITAN).
+          - **Enzalutamide:** $160$ mg (ARCHES).
+          - **Abirateron:** $1000$ mg (LATITUDE - High Risk).
         """,
         "approval_mhspc": """
-        🇪🇺/🇩🇪 **Zulassung:**
-        - **Darolutamid:** Zugelassen in Kombination mit Docetaxel+ADT.
-        - **Abirateron:** Zugelassen für High-Risk mHSPC (LATITUDE).
-        - **Enzalutamide/Apalutamide:** Zugelassen für mHSPC (meist als Doublet mit ADT).
+        ✅ **Apalutamide:** Zugelassen für mHSPC (unabhängig vom Volumen).
+        ✅ **Enzalutamide:** Zugelassen für mHSPC.
+        ✅ **Darolutamide:** Zugelassen für mHSPC (+Docetaxel).
+        ⚠️ **Abirateron:** Zugelassen für *High Risk* mHSPC. Einsatz bei Low Volume/Low Risk formal Off-Label.
         """,
 
         "rec_mcrpc": """
-        **Sequenztherapie (Wirkmechanismus wechseln)**
-        - **Post-ADT:** Enzalutamid ($160$ mg OD) oder Abirateron.
-        - **Post-ARPI:** Docetaxel ($75$ $\\text{mg/m}^2$).
-        - **Bei BRCA1/2+:** Olaparib ($300$ mg BID) oder Talazoparib ($0,5$ mg OD).
-        - **Bei PSMA+:** Lutetium-177 ($7,4$ GBq q6w x 6).
+        **mCRPC Sequenz**
+        - **Prinzip:** Wirkmechanismus ändern.
+        - **Präzision:** - **BRCA1/2:** Olaparib/Talazoparib.
+          - **PSMA+:** Lu-177-PSMA-617.
         """,
         "dos_mcrpc": """
-        ✅ **Ja:** PSMA-PET/CT vor Indikation zur Lutetium-Therapie durchführen.
-        ⛔ **Nein:** ARPI nach ARPI (z.B. Enza direkt nach Abi) wegen Kreuzresistenz (CARD-Studie).
-        ⛔ **Nein:** Radium-223 bei viszeralen Metastasen oder großen Lymphknotenpaketen (>3cm).
+        ⛔ **Nein:** Enzalutamid nach Abirateron (Kreuzresistenz). Wechsel auf Taxan oder Lutetium.
+        """
+    },
+    
+    "Español": {
+        "title": "Algoritmo de Tratamiento Cáncer de Próstata (2026)",
+        "description": "Herramienta de decisión clínica basada en **Guías EAU 2025** y **S3-Leitlinie (v8.1)**.",
+        "sidebar_title": "Configuración del Paciente",
+        "rec_title": "Recomendaciones Terapéuticas",
+        "dos_donts_title": "✅ Recomendaciones y ⛔ Precauciones",
+        "approval_title": "Zulassung (Aprobación y Reembolso)",
+        
+        "genetic_label": "Resultados Genéticos",
+        "extent_label": "Estadio de la Enfermedad",
+        "psa_label": "Nivel de PSA (ng/ml)",
+        "isup_label": "Grado ISUP (Gleason)",
+        "tstage_label": "Estadio Clínico T",
+        "n_stage_label": "Estadio N (Ganglios Regionales)",
+        "meta_state_label": "Estado Metastásico",
+        "volume_label": "Volumen de Enfermedad (CHAARTED)",
+        "psadt_label": "Tiempo de Duplicación PSA (PSADT)",
+        "primary_tx_label": "Terapia Primaria Previa",
+        
+        "isup_opts": ["ISUP 1 (Gleason 6)", "ISUP 2 (Gleason 3+4)", "ISUP 3 (Gleason 4+3)", "ISUP 4 (Gleason 8)", "ISUP 5 (Gleason 9-10)"],
+        "t_opts": ["cT1", "cT2a", "cT2b", "cT2c", "cT3", "cT4"],
+        "n_stages": ["cN0 (Ganglios Negativos)", "cN1 (Ganglios Regionales Positivos)"],
+        "m_states": ["mHSPC (Hormonosensible)", "mCRPC (Resistente a Castración)"],
+        "volumes": ["Bajo Volumen", "Alto Volumen (Visceral o ≥4 met. óseas)"],
+        "primary_tx_opts": ["Prostatectomía Radical (PR)", "Radioterapia (EBRT)"],
+
+        "rec_low": """
+        **Vigilancia Activa (AS)**
+        - **Protocolo:** PSA cada 6 meses, tacto rectal anual, mpMRI a los 12-18 meses.
+        - **Biopsia:** Confirmatoria si hay cambios en MRI o densidad de PSA >0.15.
         """,
-        "approval_mcrpc": """
-        🇪🇺/🇩🇪 **Zulassung:**
-        - **Olaparib:** Zugelassen für BRCA1/2+ mCRPC (Mono oder Kombi mit Abi).
-        - **Lutetium-177:** Zugelassen für PSMA+ mCRPC nach ARPI und Chemo (VISION).
+        "dos_low": """
+        ✅ **Hacer:** Adherirse estrictamente a los programas de re-biopsia.
+        ⛔ **No Hacer:** Ofrecer AS a pacientes con mutaciones **BRCA2** sin discutir el alto riesgo de progresión (considerar PR).
+        """,
+
+        "rec_la_cn0": """
+        **Localmente Avanzado cT3-4 cN0 (Alto Riesgo)**
+        *La terapia multimodal es obligatoria.*
+        
+        **Opción A: Radioterapia (Preferida en mayores/comorbilidades)**
+        - **EBRT:** IMRT/VMAT con escalada de dosis ($74$-$80$ Gy) a próstata/vesículas seminales.
+        - **ADT:** Terapia de privación androgénica a largo plazo por **2-3 años**.
+        
+        **Opción B: Cirugía (Pacientes Seleccionados)**
+        - **PR:** Prostatectomía Radical + ePLND (linfadenectomía extendida).
+        - **Adyuvancia:** Probable necesidad de RT adyuvante/rescate +/- ADT según patología.
+        """,
+        "rec_la_cn1": """
+        **Localmente Avanzado cN1 (Enfermedad Nodal Regional)**
+        *Protocolo STAMPEDE / Alto Riesgo*
+        
+        1. **ADT:** Agonista/antagonista LHRH continuo por **3 años**.
+        2. **Radioterapia:** EBRT a Próstata + Pelvis completa ($46$-$50$ Gy pelvis, boost a próstata $74$+ Gy).
+        3. **Abiraterona:** $1000$ mg OD + Prednisona $5$ mg OD por **2 años**.
+        """,
+        "dos_la": """
+        ✅ **Hacer:** Discutir la adición de Abiraterona para cN1 (Evidencia Nivel 1: STAMPEDE).
+        ✅ **Hacer:** Realizar estadificación con **PSMA-PET/CT** si está disponible (sensibilidad superior para M1).
+        ⛔ **No Hacer:** Monoterapia (solo cirugía o solo RT) para enfermedad cT3-4.
+        """,
+        "approval_la": """
+        🇪🇺 **EMA:** Abiraterona aprobada para mHSPC, pero la etiqueta varía para M0/cN1.
+        🇩🇪 **Alemania:** El uso en M0/cN1 se basa en STAMPEDE pero es técnicamente **Off-Label**. Solicitar reembolso.
+        """,
+
+        "rec_bcr_rp": """
+        **Recurrencia post-PR (PSA >0.2 ng/ml)**
+        - **Diagnóstico:** Realizar **PSMA-PET/CT** (PSA >0.2 es el umbral de detección).
+        - **RT de Rescate:** Radiación al lecho prostático +/- ganglios pélvicos.
+        - **Adición de ADT:**
+            - PSA <0.7: RT de rescate sola suele ser suficiente.
+            - PSA >0.7 o Alto Grado: Añadir ADT a corto plazo (6 meses).
+        """,
+        "rec_bcr_rt": """
+        **Recurrencia post-RT (Nadir + 2 ng/ml)**
+        - **Diagnóstico:** PSMA-PET/CT + Biopsia de próstata obligatoria para confirmar recurrencia local vs distante.
+        - **Terapia:** Rescate Local (PR, HIFU, Crio, Braqui) solo para pacientes muy seleccionados. ADT sistémica es el estándar.
+        """,
+        "rec_bcr_high_risk": """
+        **BCR de Alto Riesgo (Definición EMBARK)**
+        - *Criterio:* PSADT < 9 meses.
+        - **Terapia:** **Enzalutamida** ($160$ mg) + ADT mostró MFS superior vs ADT sola.
+        - **Aprobación:** Enzalutamida aprobada (FDA/EMA) para BCR de Alto Riesgo.
+        """,
+
+        "rec_mhspc_high": """
+        **mHSPC de Alto Volumen (Terapia Triple)**
+        - **Estándar:** ADT + **Docetaxel** ($75$ $\\text{mg/m}^2$ x6) + **Abiraterona** O **Darolutamida**.
+        - **Aprobaciones:** - Darolutamida (ARASENS).
+          - Abiraterona (PEACE-1).
+        """,
+        "rec_mhspc_low": """
+        **mHSPC de Bajo Volumen (Terapia Doble)**
+        - **Sistémico:** ADT + ARPI.
+        - **Local:** **Radioterapia a la Próstata** (55Gy/20fx) mejora la Supervivencia (STAMPEDE Arm H).
+        - **Opciones:**
+          - **Apalutamida:** $240$ mg OD (TITAN).
+          - **Enzalutamida:** $160$ mg OD (ARCHES).
+          - **Abiraterona:** $1000$ mg + Pred (LATITUDE - Alto Riesgo).
+        """,
+        "approval_mhspc": """
+        ✅ **Apalutamida (TITAN):** Aprobada para mHSPC (independientemente del volumen).
+        ✅ **Enzalutamida (ARCHES):** Aprobada para mHSPC.
+        ✅ **Darolutamida:** Aprobada para mHSPC en combinación con Docetaxel.
+        ⚠️ **Abiraterona:** Aprobada para mHSPC de *Alto Riesgo*. El uso en bajo volumen puede ser off-label en DE.
+        """,
+
+        "rec_mcrpc": """
+        **Secuencia mCRPC**
+        - **Objetivo:** Cambiar mecanismo de acción (ej. ADT+Quimio $\\rightarrow$ ARPI).
+        - **Precisión:** - **BRCA1/2:** Olaparib ($300$mg BID) o Talazoparib.
+          - **PSMA+:** Lu-177-PSMA-617 ($7.4$ GBq).
+        """,
+        "dos_mcrpc": """
+        ⛔ **No Hacer:** Dar Enzalutamida después de Abiraterona (resistencia cruzada). Cambiar a Taxano o Lutecio.
         """
     }
 }
 
-t_opts_map = ["Localized (cT1-2)", "Locally Advanced (cT3-4 / cN1)", "Metastatic (M1)"]
+t_opts_map = ["Localized (cT1-2)", "Locally Advanced (cT3-4 / cN1)", "Biochemical Recurrence (BCR)", "Metastatic (M1)"]
 gen_opts = ["Not Performed/Negative", "BRCA1/2 Positive", "HRR Other Positive", "MMR Deficient"]
 
-# --- 2. Helper Functions ---
+# --- 3. Helper Functions ---
 def calculate_risk_group(psa, isup_index, t_stage_index):
     isup = isup_index + 1
-    # High: PSA >20 OR ISUP 4-5 OR cT2c/T3
-    if psa > 20 or isup >= 4 or t_stage_index >= 3: 
-        return "high"
-    # Intermediate: PSA 10-20 OR ISUP 2-3 OR cT2b
-    elif (psa >= 10) or (isup == 2 or isup == 3) or (t_stage_index == 2):
-        return "int"
-    # Low
-    else:
-        return "low"
+    if psa > 20 or isup >= 4 or t_stage_index >= 3: return "high"
+    elif (psa >= 10) or (isup == 2 or isup == 3) or (t_stage_index == 2): return "int"
+    else: return "low"
 
 def q(text):
     return f'"{text}"'
 
-# --- 3. Sidebar Logic ---
+# --- 4. Sidebar Logic ---
 with st.sidebar:
     st.header("⚙️ Configuration")
-    lang_choice = st.selectbox("Language / Sprache", ["English", "Deutsch"])
+    lang_choice = st.selectbox("Language / Sprache / Idioma", ["English", "Deutsch", "Español"])
     t = translations[lang_choice]
     st.markdown("---")
     
-    # Global Inputs
     genetic_status = st.selectbox(t["genetic_label"], gen_opts)
     disease_extent = st.selectbox(t["extent_label"], t_opts_map)
     
-    # Conditional Inputs
+    # Conditional Sidebar Inputs
     calc_risk_key = None
     n_stage = None
     m_state = None
     volume = None
+    psadt = None
+    primary_tx = None
     
     if disease_extent == t_opts_map[0]: # Localized
         st.subheader("Calculator")
         in_psa = st.number_input(t["psa_label"], value=5.0, step=0.1)
         in_isup = st.selectbox(t["isup_label"], t["isup_opts"])
         in_tstage = st.selectbox(t["tstage_label"], t["t_opts"])
-        
         isup_idx = t["isup_opts"].index(in_isup)
         t_idx = t["t_opts"].index(in_tstage)
         calc_risk_key = calculate_risk_group(in_psa, isup_idx, t_idx)
@@ -232,25 +410,27 @@ with st.sidebar:
         st.subheader("Staging")
         n_stage = st.radio(t["n_stage_label"], t["n_stages"])
         
-    elif disease_extent == t_opts_map[2]: # Metastatic
+    elif disease_extent == t_opts_map[2]: # BCR
+        st.subheader("Recurrence Details")
+        primary_tx = st.radio(t["primary_tx_label"], t["primary_tx_opts"])
+        psadt = st.number_input(t["psadt_label"] + " (months)", value=10.0, step=1.0)
+
+    elif disease_extent == t_opts_map[3]: # Metastatic
         st.subheader("Metastatic Details")
         m_state = st.radio(t["meta_state_label"], t["m_states"])
         if m_state == t["m_states"][0]:
             volume = st.radio(t["volume_label"], t["volumes"])
 
-# --- 4. Main Content ---
+# --- 5. Main Content ---
 st.title(t["title"])
 st.markdown(t["description"])
 
-# --- LOGIC BRANCHING ---
-
-# A. LOCALIZED DISEASE
+# --- A. LOCALIZED ---
 if disease_extent == t_opts_map[0]:
     col1, col2 = st.columns([1, 1])
     with col1:
-        # Valid Wikimedia Commons URL for Gleason
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Prostate_cancer_Gleason_score.jpg/640px-Prostate_cancer_Gleason_score.jpg", 
-                 caption="Gleason/ISUP Grading System", use_column_width=True)
+        
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Prostate_cancer_Gleason_score.jpg/640px-Prostate_cancer_Gleason_score.jpg", caption="ISUP/Gleason", use_column_width=True)
     with col2:
         st.subheader(t["rec_title"])
         if calc_risk_key == "low":
@@ -258,77 +438,68 @@ if disease_extent == t_opts_map[0]:
             st.success(t["dos_low"])
         else:
             st.warning("**Intermediate/High Risk:** Radical Prostatectomy (RP) or EBRT+ADT.")
-            st.error("⛔ **Don't:** Watchful Waiting in healthy patients with high-risk disease.")
 
-# B. LOCALLY ADVANCED (N1 Focus)
+# --- B. LOCALLY ADVANCED ---
 elif disease_extent == t_opts_map[1]:
-    st.header(f"{t_opts_map[1]}")
+    st.header(t_opts_map[1])
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        
+        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg/640px-Diagram_showing_T1-3_stages_of_prostate_cancer_CRUK_278.svg.png", caption="T3/T4 & Nodes", use_column_width=True)
+    with col2:
+        st.subheader(t["rec_title"])
+        
+        # Split Logic: cN0 vs cN1
+        if n_stage == t["n_stages"][1]: # cN1
+            st.error(t["rec_la_cn1"])
+            st.markdown(f"#### {t['dos_donts_title']}")
+            st.success(t["dos_la"])
+            st.markdown("---")
+            st.warning(f"⚖️ {t['approval_la']}")
+        else: # cN0 High Risk
+            st.warning(t["rec_la_cn0"])
+            st.info("✅ **Tip:** PSMA-PET is highly recommended for T3/T4 to rule out metastases before curative therapy.")
+
+# --- C. BIOCHEMICAL RECURRENCE (BCR) ---
+elif disease_extent == t_opts_map[2]:
+    st.header(t_opts_map[2])
     
     col1, col2 = st.columns([1, 1])
     with col1:
-        # Valid Wikimedia Commons URL for Staging/Nodes
-        st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/TNM_Staging_System_for_Prostate_Cancer.png/640px-TNM_Staging_System_for_Prostate_Cancer.png",
-                 caption="TNM Staging: Regional Nodes (N1)", use_column_width=True)
-    with col2:
-        if n_stage == t["n_stages"][1]: # cN1
-            st.info(t["rec_n1"])
-        else:
-            st.write("For cN0 cT3-4: Standard EBRT + ADT (2-3 years) or RP.")
-            
-    # Dos and Donts Section
-    st.subheader(t["dos_donts_title"])
-    if n_stage == t["n_stages"][1]:
-        st.success(t["dos_n1"])
-    
-    # Zulassung Section
-    st.markdown("---")
-    st.subheader(f"⚖️ {t['approval_title']}")
-    if n_stage == t["n_stages"][1]:
-        st.warning(t["approval_n1"])
-    else:
-        st.success("Standard therapies (ADT, EBRT) are fully approved.")
-
-# C. METASTATIC
-elif disease_extent == t_opts_map[2]:
-    
-    # 1. mHSPC Logic
-    if m_state == t["m_states"][0]:
-        st.header("mHSPC Management")
         
+        st.image("https://upload.wikimedia.org/wikipedia/commons/6/6d/Bone_scan_Prostate_Cancer.jpg", caption="Diagnostics: PSMA-PET", use_column_width=True)
+    
+    with col2:
+        # High Risk BCR (EMBARK) Check
+        if psadt < 9.0:
+            st.error(t["rec_bcr_high_risk"])
+        
+        # Post-RP vs Post-RT
+        if primary_tx == t["primary_tx_opts"][0]: # RP
+            st.info(t["rec_bcr_rp"])
+        else: # RT
+            st.warning(t["rec_bcr_rt"])
+            
+        st.success("✅ **Zulassung:** Enzalutamide is approved for High Risk BCR (PSADT <9 mo) with or without ADT.")
+
+# --- D. METASTATIC ---
+elif disease_extent == t_opts_map[3]:
+    if m_state == t["m_states"][0]: # mHSPC
+        st.header("mHSPC Management")
         col1, col2 = st.columns([1, 1])
         with col1:
-            # Valid Wikimedia Commons URL for Bone Scan
-            st.image("https://upload.wikimedia.org/wikipedia/commons/6/6d/Bone_scan_Prostate_Cancer.jpg", 
-                     caption="Disease Volume Assessment", use_column_width=True)
+            st.info(t["approval_mhspc"])
         with col2:
-            if volume == t["volumes"][1]: # High Volume
-                st.error(t["rec_mhspc_high"]) # Triple Therapy
-            else:
-                st.info("**Low Volume:** ADT + ARPI (e.g., Enzalutamide $160$ mg). Add **Radiotherapy to Prostate**.")
-        
-        st.subheader(t["dos_donts_title"])
-        st.success(t["dos_mhspc"])
-        
-        st.markdown("---")
-        st.subheader(f"⚖️ {t['approval_title']}")
-        st.write(t["approval_mhspc"])
-
-    # 2. mCRPC Logic
-    else:
+            if volume == t["volumes"][1]: # High
+                st.error(t["rec_mhspc_high"])
+            else: # Low
+                st.success(t["rec_mhspc_low"])
+    else: # mCRPC
         st.header("mCRPC Management")
         st.info(t["rec_mcrpc"])
-        
-        st.subheader(t["dos_donts_title"])
-        st.success(t["dos_mcrpc"])
-        
-        if "BRCA" in genetic_status:
-            st.error("🧬 **Genetic Note:** Patient is BRCA+. Prioritize PARP Inhibitors (Olaparib/Talazoparib) over Taxanes if fit.")
-        
-        st.markdown("---")
-        st.subheader(f"⚖️ {t['approval_title']}")
-        st.write(t["approval_mcrpc"])
+        st.warning(t["dos_mcrpc"])
 
-# --- 5. Visual Flow (Mermaid) ---
+# --- 6. Mermaid Visual Flow ---
 st.markdown("---")
 st.subheader("Visual Decision Pathway")
 
@@ -347,19 +518,27 @@ elif disease_extent == t_opts_map[1]:
     if n_stage == t["n_stages"][1]:
         mermaid_code += f'NStage -->|cN1| Stampede["EBRT + ADT + Abiraterone"]\n'
     else:
-        mermaid_code += f'NStage -->|cN0| Std["EBRT + ADT or RP"]\n'
+        mermaid_code += f'NStage -->|cN0| Multi["Multimodal: EBRT+LongADT or RP"]\n'
 
-elif disease_extent == t_opts_map[2]:
+elif disease_extent == t_opts_map[2]: # BCR
+    mermaid_code += f'Gen --> BCR{{"Primary Tx?"}}\n'
+    if primary_tx == t["primary_tx_opts"][0]:
+        mermaid_code += f'BCR -->|Post-RP| sRT["Salvage RT +/- ADT"]\n'
+    else:
+        mermaid_code += f'BCR -->|Post-RT| Eval["Local Salvage (Selected) or ADT"]\n'
+    
+    if psadt < 9.0:
+        mermaid_code += f'Eval -.->|High Risk PSADT<9| Embark["Enzalutamide + ADT"]\n'
+        mermaid_code += f'sRT -.->|High Risk| Embark["Enzalutamide + ADT"]\n'
+
+elif disease_extent == t_opts_map[3]:
     if m_state == t["m_states"][0]:
         mermaid_code += f'Gen --> Vol{{"Volume?"}}\n'
         if volume == t["volumes"][1]:
-            mermaid_code += f'Vol -->|High| Triple["Triple: ADT + Docetaxel + ARPI"]\n'
+            mermaid_code += f'Vol -->|High| Triple["Triple: ADT + Chemo + ARPI"]\n'
         else:
             mermaid_code += f'Vol -->|Low| Double["Doublet: ADT + ARPI + RT"]\n'
-    else:
-        mermaid_code += f'Gen --> Seq["Sequence Therapy"]\n'
-        mermaid_code += f'Seq -->|BRCA+| PARP["PARP Inhibitor"]\n'
-        mermaid_code += f'Seq -->|PSMA+| Lu["Lutetium-177"]\n'
+            mermaid_code += f'Double --> Apa["Option: Apalutamide/Enza"]\n'
 
 components.html(
     f"""
@@ -371,6 +550,6 @@ components.html(
         {mermaid_code}
     </div>
     """,
-    height=400,
+    height=500,
     scrolling=True
 )
