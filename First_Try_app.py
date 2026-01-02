@@ -10,6 +10,116 @@ st.set_page_config(
 
 # --- 2. Translation & Content Dictionary ---
 translations = {
+    "English": {
+        "title": "Prostate Cancer Algorithm (S3 Guidelines 2025 / EAU)",
+        "sidebar_title": "Configuration",
+        
+        # Clinical Notes
+        "screening_note_title": "Note on Digital Rectal Examination (DRE)",
+        "screening_note": """
+        ℹ️ **S3 Guidelines / EAU:** DRE is currently viewed critically for **Screening** (early detection) due to low sensitivity (PROBASE study).
+        However, for **Staging** (assessing T-category: cT2 vs. cT3) after a confirmed diagnosis, it remains an important clinical tool alongside mpMRI.
+        """,
+
+        # Labels
+        "extent_label": "Disease Extent",
+        "psa_label": "PSA Level (ng/ml)",
+        "isup_label": "ISUP Grade (Gleason)",
+        "tstage_label": "Clinical T-Stage",
+        "meta_state_label": "Metastatic State",
+        
+        # Metastatic specific
+        "visceral_label": "Visceral Metastases (Liver, Lung)?",
+        "bone_count_label": "Number of Bone Metastases",
+        "prior_tx_label": "Prior Therapy in Hormone Sensitive Phase (mHSPC)?",
+        
+        # Options / Dropdowns
+        "extent_opts": ["Localized/Locally Advanced (M0)", "Metastatic (M1)"],
+        "t_opts": ["cT1c (Not palpable)", "cT2a (<50% of lobe)", "cT2b (>50%)", "cT2c (Both lobes)", "cT3a (Extracapsular)", "cT3b (Seminal Vesicles)", "cT4 (Adjacent organs)"],
+        "prior_opts": ["ADT Only (or ADT + 1st Gen Antiandrogen)", "ADT + Docetaxel", "ADT + ARPI (Abiraterone/Enza/Apa/Daro)", "Triple Therapy (ADT+Chemo+ARPI)"],
+        "m_states": ["mHSPC (Hormone Sensitive)", "mCRPC (Castration Resistant)"],
+
+        # Output Headers
+        "risk_header": "Risk Stratification (S3/EAU)",
+        "therapy_header": "Therapy Recommendation",
+        "calc_result": "Result",
+
+        # Recommendations Text
+        "risk_low": "Low Risk",
+        "risk_int_fav": "Intermediate (Favorable - AS Option)",
+        "risk_int": "Intermediate Risk",
+        "risk_high": "High Risk",
+
+        "rec_as_extended": """
+        **Active Surveillance (AS)**
+        *German S3 Guideline Variation:*
+        While EAU guidelines are stricter (PSA <10), S3 guidelines allow AS for **PSA up to 15 ng/ml** (selected cases up to 20) if:
+        - ISUP 1 (Gleason 6).
+        - cT1c/cT2a.
+        - Low tumor burden in biopsy (<50% positive cores).
+        
+        **Protocol:** PSA every 3-6 mo., Re-biopsy/MRI at 12-18 mo.
+        """,
+        
+        "rec_curative": """
+        **Standard Curative Therapy**
+        - **Radical Prostatectomy:** + pelvic lymph node dissection.
+        - **Radiotherapy (EBRT):** IMRT/VMAT + short-term ADT (4-6 months).
+        """,
+
+        "rec_multimodal": """
+        **Multimodal Therapy (High Risk / cT3)**
+        - **EBRT:** Dose-escalated + **Long-term ADT** (2-3 years).
+        - **RP:** Radical Prostatectomy + extended lymph node dissection (often requires multimodal concept).
+        """,
+
+        "rec_mhspc_high": """
+        🔴 **mHSPC - High Volume**
+        *Definition (CHAARTED): Visceral mets OR ≥4 bone mets (≥1 outside spine/pelvis)*
+        
+        **Standard: Triple Therapy**
+        1. **ADT** (Continuous LHRH agonist/antagonist).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (Standard) OR $50 \\text{ mg/m}^2$ q2w (Alternative for tolerability).
+        3. **ARPI:** - **Darolutamide:** $600$ mg BID (ARASENS).
+           - *OR* **Abiraterone:** $1000$ mg QD + Prednisone (PEACE-1).
+        """,
+        
+        "rec_mhspc_low": """
+        🟢 **mHSPC - Low Volume**
+        
+        **Standard: Doublet Therapy + Local Therapy**
+        1. **ADT** + **ARPI** (Enzalutamide, Apalutamide, or Abiraterone).
+        2. **Prostate Radiotherapy:** (55 Gy in 20 fx) - Overall Survival benefit (STAMPEDE Arm H).
+        
+        *Note: Avoid Docetaxel in Low Volume (toxicity without survival benefit).*
+        """,
+        
+        "rec_mcrpc_chemo": """
+        **Option: Taxane Chemotherapy (Bi-weekly Regimen)**
+        - *Regimen:* **Docetaxel** $50 \\text{ mg/m}^2$ every 2 weeks.
+        - *Evidence:* **PROSTY Trial (Kellokumpu-Lehtinen et al., Lancet Oncol 2013)** showed comparable efficacy to standard 3-weekly ($75 \\text{ mg/m}^2$) but with significantly **lower toxicity** (less neutropenia/infections).
+        - *Alternative:* **Cabazitaxel** $25 \\text{ mg/m}^2$ q3w (2nd line).
+        """,
+        
+        "rec_mcrpc_lutetium": """
+        **Option: PSMA Radioligand Therapy**
+        - *When?* PSMA-positive on PET. Approved post-ARPI and Chemo (VISION).
+        - **Lutetium-177-PSMA-617:** $7.4$ GBq every 6 weeks (4-6 cycles).
+        """,
+        
+        "rec_mcrpc_parp": """
+        **Option: PARP Inhibitors**
+        - *When?* Confirmed **BRCA1/2** mutations.
+        - **Olaparib:** $300$ mg BID.
+        - **Talazoparib:** $0.5$ mg QD.
+        - *Combination with ARPI possible in 1st line mCRPC.*
+        """,
+
+        "advice_switch": "Patient progressed on ARPI. No 2nd ARPI (cross-resistance)! Switch to Chemo or Lu-177.",
+        "advice_taxane": "Patient already had Chemo. Next steps: Cabazitaxel or Lu-177 (if PSMA+).",
+        "advice_naive": "Patient is ARPI-naïve. Start Enzalutamide or Abiraterone."
+    },
+
     "Deutsch": {
         "title": "Prostatakarzinom Algorithmus (S3-Leitlinie 2025 / EAU)",
         "sidebar_title": "Konfiguration",
@@ -17,7 +127,7 @@ translations = {
         # Clinical Notes
         "screening_note_title": "Hinweis zur Digitalen Rektalen Untersuchung (DRU)",
         "screening_note": """
-        ℹ️ **S3-Leitlinie (Version 8.1):** Die DRU wird für das **Screening** (Früherkennung) aufgrund geringer Sensitivität (PROBASE-Studie) kritisch gesehen.
+        ℹ️ **S3-Leitlinie (Version 8.1):** Die DRU wird für das **Screening** (Früherkennung) aufgrund geringer Sensitivität (PROBASE-Studie) kritisch gesehen und nicht mehr uneingeschränkt empfohlen.
         Für das **Staging** (Beurteilung der T-Kategorie: cT2 vs. cT3) nach gesicherter Diagnose bleibt sie jedoch ein wichtiges klinisches Werkzeug, ergänzend zur mpMRT.
         """,
 
@@ -79,7 +189,7 @@ translations = {
         
         **Standard: Tripel-Therapie**
         1. **ADT** (LHRH-Analogon kontinuierlich).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ alle 3 Wochen (6 Zyklen).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (Standard) ODER $50 \\text{ mg/m}^2$ q2w (Alternative).
         3. **ARPI:** - **Darolutamid:** $600$ mg 2x tgl (ARASENS).
            - *ODER* **Abirateron:** $1000$ mg 1x tgl + Prednison (PEACE-1).
         """,
@@ -88,17 +198,17 @@ translations = {
         🟢 **mHSPC - Geringes Volumen (Low Volume)**
         
         **Standard: Doublet-Therapie + Lokaltherapie**
-        1. **ADT** + **ARPI** (Enzalutamid, Apalutamid oder Abirateron).
+        1. **ADT** + **ARPI** (Enzalutamid, Apalutamida oder Abirateron).
         2. **Strahlentherapie der Prostata:** (55 Gy in 20 Fx) - Überlebensvorteil (STAMPEDE Arm H).
         
         *Cave: Docetaxel hat bei Low Volume keinen Überlebensvorteil und sollte vermieden werden.*
         """,
         
         "rec_mcrpc_chemo": """
-        **Option: Taxan-Chemotherapie**
-        - *Wann?* Bei Progress unter ARPI oder hoher Symptomlast.
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (1. Linie Chemo).
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (2. Linie Chemo oder direkt nach Docetaxel).
+        **Option: Taxan-Chemotherapie (2-Wochen-Schema)**
+        - *Dosierung:* **Docetaxel** $50 \\text{ mg/m}^2$ alle 2 Wochen.
+        - *Evidenz:* **PROSTY-Studie (Kellokumpu-Lehtinen et al., Lancet Oncol 2013)** zeigte vergleichbare Wirksamkeit zum 3-Wochen-Schema ($75 \\text{ mg/m}^2$) bei signifikant **geringerer Toxizität** (weniger Neutropenien).
+        - *Alternative:* **Cabazitaxel** $25 \\text{ mg/m}^2$ q3w (2. Linie).
         """,
         
         "rec_mcrpc_lutetium": """
@@ -189,7 +299,7 @@ translations = {
         
         **Estándar: Terapia Triple**
         1. **ADT** (Bloqueo androgénico continuo).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ cada 3 semanas (6 ciclos).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (Estándar) O $50 \\text{ mg/m}^2$ q2w (Alternativa).
         3. **ARPI:** - **Darolutamida:** $600$ mg 2 veces al día (ARASENS).
            - *O* **Abiraterona:** $1000$ mg 1 vez al día + Prednisona (PEACE-1).
         """,
@@ -205,10 +315,10 @@ translations = {
         """,
         
         "rec_mcrpc_chemo": """
-        **Opción: Quimioterapia (Taxanos)**
-        - *¿Cuándo?* Progresión tras ARPI o síntomas severos.
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (1ª línea quimio).
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (2ª línea o tras Docetaxel).
+        **Opción: Quimioterapia (Esquema Bisemanal)**
+        - *Dosis:* **Docetaxel** $50 \\text{ mg/m}^2$ cada 2 semanas.
+        - *Evidencia:* **Estudio PROSTY (Kellokumpu-Lehtinen et al., Lancet Oncol 2013)** mostró eficacia comparable al esquema de 3 semanas ($75 \\text{ mg/m}^2$) con **menor toxicidad** (menos neutropenia).
+        - *Alternativa:* **Cabazitaxel** $25 \\text{ mg/m}^2$ q3w (2ª línea).
         """,
         
         "rec_mcrpc_lutetium": """
@@ -258,7 +368,7 @@ def calculate_risk(psa, isup_idx, t_idx):
 # --- 4. Sidebar UI ---
 with st.sidebar:
     st.header("🌐 Language")
-    lang_key = st.selectbox("Select", ["Deutsch", "Español"])
+    lang_key = st.selectbox("Select", ["English", "Deutsch", "Español"])
     t = translations[lang_key]
     
     st.markdown("---")
@@ -326,7 +436,7 @@ if disease_extent == t["extent_opts"][0]:
         else: # High
             st.error(f"🔴 **{display_risk}**")
             st.write(t["rec_multimodal"])
-            
+            [Image of prostate cancer radiotherapy planning]
 
 # --- RESULT: METASTATIC ---
 else:
@@ -339,7 +449,7 @@ else:
         
         if is_high_volume:
             st.error(t["rec_mhspc_high"])
-            
+            [Image of metastatic prostate cancer mechanism of action docetaxel]
         else:
             st.success(t["rec_mhspc_low"])
             
@@ -361,12 +471,12 @@ else:
                 st.write("**Cabazitaxel**")
             else:
                 st.success(t["advice_naive"])
-                st.write("Enzalutamid / Abirateron")
+                st.write("Enzalutamide / Abiraterone")
                 
         with col2:
             st.markdown("### 2. Teragnosis (PSMA)")
             st.write(t["rec_mcrpc_lutetium"])
-            
+            [Image of psma pet scan theranostics lutetium]
 
         with col3:
             st.markdown("### 3. Precision (BRCA)")
@@ -397,7 +507,7 @@ else:
         # mCRPC Flow
         mermaid_code += f'Start[mCRPC] --> Prev{{"Prev Tx?"}}\n'
         if "ARPI" in prior_therapy:
-            mermaid_code += f'Prev --> Chemo["Docetaxel"]\n'
+            mermaid_code += f'Prev --> Chemo["Docetaxel (PROSTY: 50mg q2w)"]\n'
         elif "Docetaxel" in prior_therapy:
             mermaid_code += f'Prev --> Cab["Cabazitaxel"]\n'
         else:
