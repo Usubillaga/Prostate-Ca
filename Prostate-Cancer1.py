@@ -39,12 +39,12 @@ translations = {
         "dre_opts": ["Normal", "Abnormal (Suspicious)"],
         
         # Options
-        "extent_opts": ["Diagnosis (Biopsy Decision)", "Localized (cT1-2 N0)", "Locally Advanced (cT3-4 or cN1)", "Biochemical Recurrence (BCR)", "Metastatic (M1)"],
+        "extent_opts": ["Diagnosis (Biopsy Decision)", "Localized (cT1-2 N0)", "Locally Advanced (cT3-4 or cN1)", "Biochemical Recurrence (BCR)", "nmCRPC (M0 CRPC)", "Metastatic (M1)"],
         "genetic_opts": ["Not Performed/Unknown", "Negative", "BRCA1/2 Positive", "Other HRR Positive", "MSI-High / dMMR"],
         "pirads_opts": ["PIRADS 1-2", "PIRADS 3", "PIRADS 4-5"],
         "n_stages": ["cN0 (Nodes Negative)", "cN1 (Regional Nodes Positive)"],
         "m_states": ["mHSPC (Hormone Sensitive)", "mCRPC (Castration Resistant)"],
-        "prior_opts": ["ADT Only", "ADT + Docetaxel", "ADT + ARPI", "Triple Therapy"],
+        "prior_opts": ["ADT Only (Naïve)", "ADT + Docetaxel", "ADT + ARPI (Abiraterone/Enza/Apa/Daro)", "Triple Therapy"],
         "primary_tx_opts": ["Radical Prostatectomy (RP)", "Radiotherapy (EBRT)"],
 
         # --- DIAGNOSIS ---
@@ -140,64 +140,97 @@ translations = {
         - **Action:** Observation (Monitoring) or Salvage RT.
         """,
 
+        # --- nmCRPC ---
+        "header_nmcrpc": "Non-Metastatic CRPC (M0)",
+        "crpc_criteria": """
+        **CRPC Definition:**
+        1. Castrate Testosterone < 50 ng/dl.
+        2. PSA Progression (3 consecutive rises).
+        3. No visible metastases on conventional imaging.
+        """,
+        "rec_nmcrpc_high": """
+        🔴 **High Risk (PSADT < 10 mo)**
+        **1st Line Options:**
+        - **Apalutamide:** $240$ mg OD.
+        - **Enzalutamide:** $160$ mg OD.
+        - **Darolutamide:** $600$ mg BID.
+        ✅ All approved (EMA/FDA).
+        """,
+        "rec_nmcrpc_low": """
+        🟢 **Low Risk (PSADT > 10 mo)**
+        - **Recommendation:** Observation (Continue ADT).
+        """,
+
+        # --- BONE PROTECTION ---
+        "bone_protection": """
+        🦴 **Bone Protection Therapy**
+        *Indication: mCRPC with bone metastases (Standard). mHSPC (Recommended to prevent SRE).*
+        
+        **Options:**
+        1. **Denosumab (Xgeva):** $120$ mg s.c. every 4 weeks.
+        2. **Zoledronic Acid:** $4$ mg i.v. every 3-4 weeks (Renal dose adjust!).
+        
+        **Supplementation:**
+        - Calcium $500$ mg + Vitamin D $400$ IU daily.
+        - *Pre-check:* Dental clearance (ONJ risk).
+        """,
+
         # --- mHSPC ---
         "header_mhspc": "Metastatic Hormone-Sensitive (mHSPC)",
         "rec_mhspc_high": """
         🔴 **High Volume / High Risk**
         *Visceral Mets OR $\ge$4 Bone Mets*
         
-        **Standard: Triple Therapy**
+        **1st Line Standard: Triple Therapy**
         1. **ADT** (Continuous).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles) OR $50 \\text{ mg/m}^2$ q2w.
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w (PROSTY).
         3. **ARPI:**
-           - **Darolutamide:** $600$ mg BID.
-           - *OR* **Abiraterone:** $1000$ mg OD + Prednisone.
-        
-        ✅ **Approvals:**
-        - 🇪🇺 **Darolutamide:** Approved mHSPC + Docetaxel (ARASENS).
-        - 🇪🇺 **Abiraterone:** Approved High Risk mHSPC (LATITUDE).
+           - **Darolutamide:** $600$ mg BID (ARASENS).
+           - *OR* **Abiraterone:** $1000$ mg OD + Prednisone (PEACE-1).
         """,
         "rec_mhspc_low": """
         🟢 **Low Volume**
         
-        **Standard: Doublet + Local RT**
+        **1st Line Standard: Doublet + Local RT**
         1. **ADT** + **ARPI** (Enzalutamide / Apalutamide).
         2. **Prostate RT:** 55 Gy / 20 Fx (STAMPEDE H).
         
-        ⛔ **Don't:** No Docetaxel for Low Volume (toxicity > benefit).
-        
-        ✅ **Approvals:**
-        - 🇪🇺 **Enzalutamide:** $160$ mg OD (ARCHES).
-        - 🇪🇺 **Apalutamida:** $240$ mg OD (TITAN).
+        ⛔ **Don't:** No Docetaxel for Low Volume.
         """,
 
         # --- mCRPC ---
         "header_mcrpc": "Metastatic Castration-Resistant (mCRPC)",
-        "rec_mcrpc_chemo": """
-        **Chemotherapy Options**
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w (PROSTY Trial - less toxicity).
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (2nd line or post-Doc).
+        
+        "line1_naive": """
+        **1st Line (ARPI-Naïve)**
+        - **Enzalutamide:** $160$ mg OD.
+        - **Abiraterone:** $1000$ mg + Prednisone.
+        - *Alternative:* Docetaxel if symptomatic/visceral crisis.
         """,
-        "rec_mcrpc_parp": """
-        **PARP Inhibitors (BRCA1/2 Mutation)**
-        - **Olaparib:** 300 mg BID.
-        - **Talazoparib:** 0.5 mg OD.
-        ✅ 🇪🇺 Approved.
+        
+        "line1_post_arpi": """
+        **1st/2nd Line (Post-ARPI Progression)**
+        *Switch Mechanism! Do not use 2nd ARPI.*
+        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w.
         """,
-        "rec_mcrpc_lutetium": """
-        **Radioligand Therapy (PSMA+)**
-        - **Lu-177-PSMA-617:** $7.4$ GBq q6w (6 cycles).
-        ✅ 🇪🇺 Approved post-ARPI & Chemo (VISION).
+        
+        "line2_post_doc": """
+        **2nd/3rd Line (Post-Docetaxel)**
+        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (CARD Trial).
+        - **Lu-177-PSMA:** $7.4$ GBq q6w (if PSMA+).
+        - **Olaparib:** $300$ mg BID (if BRCA+).
         """,
+        
         "rec_mcrpc_pembro": """
-        **Immunotherapy (MSI-High / dMMR)**
+        **Immunotherapy (Any Line)**
         - **Pembrolizumab:** $200$ mg q3w.
-        ✅ 🇪🇺 Approved for MSI-H solid tumors.
+        - *Indication:* MSI-High / dMMR only.
         """,
+        
         "rec_mcrpc_ra223": """
-        **Radium-223 (Bone Only)**
-        - **Dosis:** $55$ kBq/kg q4w (6 injections).
-        - *Contraindication:* Visceral metastases.
+        **Bone-Targeted (3rd Line/Symptomatic)**
+        - **Radium-223:** $55$ kBq/kg q4w.
+        - *Indication:* Symptomatic bone mets, NO visceral mets.
         """
     },
 
@@ -226,12 +259,12 @@ translations = {
         "prev_bx_label": "Vorherige negative Biopsie?",
         "dre_opts": ["Normal", "Abnormal (Suspekt)"],
 
-        "extent_opts": ["Diagnose (Rotterdam & Biopsie)", "Lokalisiert (cT1-2 N0)", "Lokal Fortgeschritten (cT3-4 oder cN1)", "Biochemisches Rezidiv (BCR)", "Metastasiert (M1)"],
+        "extent_opts": ["Diagnose (Rotterdam & Biopsie)", "Lokalisiert (cT1-2 N0)", "Lokal Fortgeschritten (cT3-4 oder cN1)", "Biochemisches Rezidiv (BCR)", "nmCRPC (M0 CRPC)", "Metastasiert (M1)"],
         "genetic_opts": ["Nicht durchgeführt/Unbekannt", "Negativ", "BRCA1/2 Positiv", "Andere HRR Positiv", "MSI-High / dMMR"],
         "pirads_opts": ["PIRADS 1-2", "PIRADS 3", "PIRADS 4-5"],
         "n_stages": ["cN0 (Knoten Negativ)", "cN1 (Knoten Positiv)"],
         "m_states": ["mHSPC (Hormonsensitiv)", "mCRPC (Kastrationsresistent)"],
-        "prior_opts": ["Nur ADT", "ADT + Docetaxel", "ADT + ARPI", "Tripel-Therapie"],
+        "prior_opts": ["Nur ADT (Naiv)", "ADT + Docetaxel", "ADT + ARPI", "Tripel-Therapie"],
         "primary_tx_opts": ["Radikale Prostatektomie (RP)", "Strahlentherapie (EBRT)"],
 
         "header_diag": "Diagnose: Risiko & Biopsie",
@@ -322,12 +355,45 @@ translations = {
         - **Vorgehen:** Beobachtung (Monitoring) oder Salvage-RT.
         """,
 
+        "header_nmcrpc": "Nicht-Metastasiertes CRPC (nmCRPC / M0)",
+        "crpc_criteria": """
+        **CRPC Definition (EAU):**
+        1. **Kastrationsniveau:** Testosteron < 50 ng/dL.
+        2. **Progress:** 3 PSA-Anstiege > 2,0 ng/mL.
+        3. **Keine Metastasen:** Im CT/Szinti.
+        """,
+        "rec_nmcrpc_high": """
+        🔴 **Hochrisiko nmCRPC (PSADT < 10 Monate)**
+        *1. Linie Standard:*
+        - **Apalutamid:** $240$ mg.
+        - **Enzalutamid:** $160$ mg.
+        - **Darolutamid:** $600$ mg 2x tgl.
+        ✅ 🇪🇺 Alle voll zugelassen.
+        """,
+        "rec_nmcrpc_low": """
+        🟢 **Niedrigrisiko nmCRPC (PSADT > 10 Monate)**
+        - **Empfehlung:** Beobachtung unter ADT.
+        """,
+
+        "bone_protection": """
+        🦴 **Knochenschutz (Bone Protection)**
+        *Indikation: mCRPC mit Knochenmetastasen (Standard). mHSPC (Empfohlen zur SRE-Prävention).*
+        
+        **Optionen:**
+        1. **Denosumab (Xgeva):** $120$ mg s.c. alle 4 Wochen.
+        2. **Zoledronsäure:** $4$ mg i.v. alle 3-4 Wochen (Nierenfunktion!).
+        
+        **Supplementierung:**
+        - Calcium $500$ mg + Vitamin D $400$ IE täglich.
+        - *Vorab:* Zahnärztliche Kontrolle (Kiefernekrose-Risiko).
+        """,
+
         "header_mhspc": "Metastasiert Hormonsensitiv (mHSPC)",
         "rec_mhspc_high": """
         🔴 **Hohes Volumen / High Risk**
         *Viszerale Met. ODER $\ge$4 Knochenmet.*
         
-        **Standard: Tripel-Therapie**
+        **1. Linie Standard: Tripel-Therapie**
         1. **ADT** (Kontinuierlich).
         2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 Zyklen) ODER $50 \\text{ mg/m}^2$ q2w.
         3. **ARPI:**
@@ -335,49 +401,49 @@ translations = {
            - *ODER* **Abirateron:** $1000$ mg + Prednison.
         
         ✅ **Zulassung:**
-        - 🇪🇺 **Darolutamid:** Zugelassen für mHSPC + Docetaxel (ARASENS).
-        - 🇪🇺 **Abirateron:** Zugelassen für High Risk mHSPC (LATITUDE).
+        - 🇪🇺 **Darolutamid/Abirateron:** Voll zugelassen.
         """,
         "rec_mhspc_low": """
         🟢 **Geringes Volumen**
         
-        **Standard: Doublet + Lokaltherapie**
+        **1. Linie Standard: Doublet + Lokaltherapie**
         1. **ADT** + **ARPI** (Enzalutamid / Apalutamida).
-        2. **Prostata-RT:** 55 Gy / 20 Fx (STAMPEDE H).
+        2. **Prostata-RT:** 55 Gy / 20 Fx.
         
-        ⛔ **Cave:** Kein Docetaxel bei Low Volume (Toxizität > Nutzen).
-        
-        ✅ **Zulassung:**
-        - 🇪🇺 **Enzalutamid:** $160$ mg (ARCHES).
-        - 🇪🇺 **Apalutamida:** $240$ mg (TITAN).
+        ⛔ **Cave:** Kein Docetaxel bei Low Volume.
         """,
 
         "header_mcrpc": "Metastasiert Kastrationsresistent (mCRPC)",
-        "rec_mcrpc_chemo": """
-        **Chemotherapie Optionen**
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w ODER $50 \\text{ mg/m}^2$ q2w (PROSTY-Studie).
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (2. Linie).
+        
+        "line1_naive": """
+        **1. Linie (ARPI-Naiv)**
+        - **Enzalutamid** oder **Abirateron**.
+        - *Alternativ:* Docetaxel bei hoher Symptomlast.
         """,
-        "rec_mcrpc_parp": """
-        **PARP-Inhibitoren (BRCA1/2 Mutation)**
-        - **Olaparib:** 300 mg 2x tgl.
-        - **Talazoparib:** 0.5 mg 1x tgl.
-        ✅ 🇪🇺 Zugelassen.
+        
+        "line1_post_arpi": """
+        **1./2. Linie (Nach ARPI-Progress)**
+        *Mechanismus wechseln!*
+        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w ODER $50 \\text{ mg/m}^2$ q2w (PROSTY).
         """,
-        "rec_mcrpc_lutetium": """
-        **Radioligandentherapie (PSMA+)**
-        - **Lu-177-PSMA-617:** $7,4$ GBq alle 6 Wochen.
-        ✅ 🇪🇺 Zugelassen (VISION).
+        
+        "line2_post_doc": """
+        **2./3. Linie (Nach Docetaxel)**
+        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w.
+        - **Lu-177-PSMA:** $7,4$ GBq q6w (wenn PSMA+).
+        - **Olaparib:** $300$ mg 2x tgl (wenn BRCA+).
         """,
+        
         "rec_mcrpc_pembro": """
-        **Immuntherapie (MSI-High / dMMR)**
+        **Immuntherapie (Jede Linie)**
         - **Pembrolizumab:** $200$ mg q3w.
-        ✅ 🇪🇺 Zugelassen bei MSI-H.
+        - *Indikation:* Nur bei MSI-High / dMMR.
         """,
+        
         "rec_mcrpc_ra223": """
-        **Radium-223 (Nur Knochen)**
-        - **Dosis:** $55$ kBq/kg alle 4 Wochen.
-        - *Kontraindikation:* Viszerale Metastasen.
+        **Knochen-Zielgerichtet (3. Linie/Symptome)**
+        - **Radium-223:** $55$ kBq/kg q4w.
+        - *Indikation:* Nur Knochenmetastasen (keine viszeralen).
         """
     },
     
@@ -407,12 +473,12 @@ translations = {
         "prev_bx_label": "¿Biopsia previa negativa?",
         "dre_opts": ["Normal", "Anormal (Sospechoso)"],
 
-        "extent_opts": ["Diagnóstico (Rotterdam & Biopsia)", "Localizado (cT1-2 N0)", "Localmente Avanzado (cT3-4 o cN1)", "Recurrencia Bioquímica (BCR)", "Metastásico (M1)"],
+        "extent_opts": ["Diagnóstico (Rotterdam & Biopsia)", "Localizado (cT1-2 N0)", "Localmente Avanzado (cT3-4 o cN1)", "Recurrencia Bioquímica (BCR)", "nmCRPC (M0 CRPC)", "Metastásico (M1)"],
         "genetic_opts": ["No realizado/Desconocido", "Negativo", "BRCA1/2 Positivo", "Otro HRR Positivo", "MSI-Alto / dMMR"],
         "pirads_opts": ["PIRADS 1-2", "PIRADS 3", "PIRADS 4-5"],
         "n_stages": ["cN0 (Ganglios Negativos)", "cN1 (Ganglios Positivos)"],
         "m_states": ["mHSPC (Hormonosensible)", "mCRPC (Resistente a Castración)"],
-        "prior_opts": ["Solo ADT", "ADT + Docetaxel", "ADT + ARPI", "Terapia Triple"],
+        "prior_opts": ["Solo ADT (Naïve)", "ADT + Docetaxel", "ADT + ARPI", "Terapia Triple"],
         "primary_tx_opts": ["Prostatectomía Radical (PR)", "Radioterapia (EBRT)"],
 
         "header_diag": "Diagnóstico: Decisión de Biopsia",
@@ -503,12 +569,43 @@ translations = {
         - **Acción:** Observación o RT de Rescate.
         """,
 
+        "header_nmcrpc": "nmCRPC (CRPC No Metastásico / M0)",
+        "crpc_criteria": """
+        **Definición CRPC (EAU):**
+        1. **Testosterona Castrada:** < 50 ng/dL.
+        2. **Progresión PSA:** 3 aumentos consecutivos.
+        3. **Sin Metástasis:** En imagen convencional.
+        """,
+        "rec_nmcrpc_high": """
+        🔴 **nmCRPC Alto Riesgo (PSADT < 10 meses)**
+        *1ª Línea Estándar:*
+        - **Apalutamida:** $240$ mg.
+        - **Enzalutamida:** $160$ mg.
+        - **Darolutamida:** $600$ mg 2x día.
+        ✅ 🇪🇺 Aprobados.
+        """,
+        "rec_nmcrpc_low": """
+        🟢 **nmCRPC Bajo Riesgo (PSADT > 10 meses)**
+        - **Recomendación:** Observación bajo ADT.
+        """,
+
+        "bone_protection": """
+        🦴 **Protección Ósea**
+        *Indicación: mCRPC con metástasis óseas (Estándar).*
+        
+        **Opciones:**
+        1. **Denosumab:** $120$ mg s.c. c/4 sem.
+        2. **Ácido Zoledrónico:** $4$ mg i.v. c/3-4 sem.
+        
+        **Suplementos:** Calcio $500$ mg + Vitamina D $400$ UI.
+        """,
+
         "header_mhspc": "Metastásico Hormonosensible (mHSPC)",
         "rec_mhspc_high": """
         🔴 **Alto Volumen / Alto Riesgo**
         *Mets Viscerales O $\ge$4 Mets Óseas*
         
-        **Estándar: Terapia Triple**
+        **1ª Línea Estándar: Terapia Triple**
         1. **ADT** (Continuo).
         2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 ciclos) O $50 \\text{ mg/m}^2$ q2w.
         3. **ARPI:**
@@ -516,49 +613,49 @@ translations = {
            - *O* **Abiraterona:** $1000$ mg OD + Prednisona.
         
         ✅ **Aprobaciones:**
-        - 🇪🇺 **Darolutamida:** Aprobada mHSPC + Docetaxel (ARASENS).
-        - 🇪🇺 **Abiraterona:** Aprobada Alto Riesgo mHSPC (LATITUDE).
+        - 🇪🇺 **Darolutamida/Abiraterona:** Aprobados.
         """,
         "rec_mhspc_low": """
         🟢 **Bajo Volumen**
         
-        **Estándar: Doble + RT Local**
+        **1ª Línea Estándar: Doble + RT Local**
         1. **ADT** + **ARPI** (Enzalututamida / Apalutamida).
         2. **RT Próstata:** 55 Gy / 20 Fx (STAMPEDE H).
         
-        ⛔ **No:** Evitar Docetaxel (toxicidad > beneficio).
-        
-        ✅ **Aprobaciones:**
-        - 🇪🇺 **Enzalutamida:** $160$ mg (ARCHES).
-        - 🇪🇺 **Apalutamida:** $240$ mg (TITAN).
+        ⛔ **No:** Evitar Docetaxel.
         """,
 
         "header_mcrpc": "Metastásico Resistente a Castración (mCRPC)",
-        "rec_mcrpc_chemo": """
-        **Opciones Quimioterapia**
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w O $50 \\text{ mg/m}^2$ q2w (PROSTY - menos toxicidad).
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (2ª línea).
+        
+        "line1_naive": """
+        **1ª Línea (Naïve a ARPI)**
+        - **Enzalutamida** o **Abiraterona**.
+        - *Alternativa:* Docetaxel.
         """,
-        "rec_mcrpc_parp": """
-        **Inhibidores PARP (Mutación BRCA1/2)**
-        - **Olaparib:** 300 mg BID.
-        - **Talazoparib:** 0.5 mg OD.
-        ✅ 🇪🇺 Aprobado.
+        
+        "line1_post_arpi": """
+        **1ª/2ª Línea (Tras ARPI)**
+        *¡Cambiar Mecanismo!*
+        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w O $50 \\text{ mg/m}^2$ q2w.
         """,
-        "rec_mcrpc_lutetium": """
-        **Terapia Radioligandos (PSMA+)**
-        - **Lu-177-PSMA-617:** $7.4$ GBq q6w (6 ciclos).
-        ✅ 🇪🇺 Aprobado post-ARPI & Quimio (VISION).
+        
+        "line2_post_doc": """
+        **2ª/3ª Línea (Tras Docetaxel)**
+        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w.
+        - **Lu-177-PSMA:** $7.4$ GBq q6w.
+        - **Olaparib:** $300$ mg 2x día (si BRCA+).
         """,
+        
         "rec_mcrpc_pembro": """
-        **Inmunoterapia (MSI-High / dMMR)**
+        **Inmunoterapia (Cualquier Línea)**
         - **Pembrolizumab:** $200$ mg q3w.
-        ✅ 🇪🇺 Aprobado MSI-H.
+        - *Indicación:* MSI-Alto / dMMR.
         """,
+        
         "rec_mcrpc_ra223": """
-        **Radium-223 (Solo Hueso)**
-        - **Dosis:** $55$ kBq/kg c/4sem.
-        - *Contraindicación:* Metástasis viscerales.
+        **Dirigido a Hueso (3ª Línea)**
+        - **Radium-223:** $55$ kBq/kg c/4sem.
+        - *Indicación:* Solo hueso, no visceral.
         """
     }
 }
@@ -646,15 +743,23 @@ with st.sidebar:
         if "Radiotherapy" in primary_tx:
             recurrence_time = st.number_input(t["recurrence_time_label"], value=12)
             
-    # --- E. METASTATIC ---
+    # --- E. nmCRPC ---
     elif disease_extent == t["extent_opts"][4]:
+        st.subheader("CRPC M0")
+        psadt = st.number_input(t["psadt_label"], value=8.0)
+            
+    # --- F. METASTATIC ---
+    elif disease_extent == t["extent_opts"][5]:
         st.subheader("Metastatic Details")
         m_state = st.radio(t["meta_state_label"], t["m_states"])
         is_high_vol = False
+        bone_mets = 0
         if m_state == t["m_states"][0]: # mHSPC
             if st.checkbox("High Volume (Visceral/4+ Bone)?"): is_high_vol = True
+            bone_mets = st.number_input("Bone Mets Count", 0, 10, 1)
         else: # mCRPC
             prior = st.selectbox("Prior Therapy", t["prior_opts"])
+            bone_mets = st.number_input("Bone Mets Count", 0, 10, 1)
 
 # --- 5. Main Content ---
 st.title(t["title"])
@@ -725,42 +830,65 @@ elif disease_extent == t["extent_opts"][3]:
             st.success(t[risk_key])
             mermaid_code = "graph TD\nStart --> LowRisk --> Obs[Observation/Salvage]"
 
-# 5. METASTATIC
+# 5. nmCRPC
 elif disease_extent == t["extent_opts"][4]:
+    st.header(t["header_nmcrpc"])
+    st.info(t["crpc_criteria"])
+    st.markdown("---")
+    if psadt < 10:
+        st.error(t["rec_nmcrpc_high"])
+        mermaid_code = "graph TD\nnmCRPC --> PSADT{< 10 mo}\nPSADT -->|Yes| ARPI[Apa/Enza/Daro]"
+    else:
+        st.success(t["rec_nmcrpc_low"])
+        mermaid_code = "graph TD\nnmCRPC --> PSADT{> 10 mo}\nPSADT -->|No| Obs[Observation]"
+
+# 6. METASTATIC
+elif disease_extent == t["extent_opts"][5]:
     if m_state == t["m_states"][0]: # mHSPC
         st.header("mHSPC")
         if is_high_vol:
             st.error(t["rec_mhspc_high"])
-            mermaid_code = "graph TD\nmHSPC --> Vol{High Volume}\nVol --> Triple[Triple Therapy]"
+            mermaid_code = "graph TD\nmHSPC --> Vol{High Vol}\nVol --> Triple[Triple Therapy]"
         else:
             st.success(t["rec_mhspc_low"])
-            mermaid_code = "graph TD\nmHSPC --> Vol{Low Volume}\nVol --> Double[Doublet + RT]"
+            mermaid_code = "graph TD\nmHSPC --> Vol{Low Vol}\nVol --> Double[Doublet + RT]"
+        
+        # Bone Protection for mHSPC
+        if bone_mets > 0:
+            st.info(t["bone_protection"])
+
     else: # mCRPC
         st.header(t["header_mcrpc"])
-        c1, c2 = st.columns(2)
+        
+        c1, c2, c3 = st.columns(3)
         with c1:
-            st.markdown("### Standard")
-            st.info(t["rec_mcrpc_chemo"])
+            st.markdown("### 1. Line / Switch")
+            # Logic for sequencing
+            if "ADT Only" in prior:
+                st.write(t["line1_naive"])
+            elif "ARPI" in prior:
+                st.write(t["line1_post_arpi"]) # Docetaxel
+            elif "Docetaxel" in prior:
+                st.write(t["line2_post_doc"]) # Cabazitaxel
+                
         with c2:
-            st.markdown("### Precision")
-            # Dynamic genetic output
-            if is_brca:
-                st.error(f"🧬 **BRCA+ Detected:**\n{t['rec_mcrpc_parp']}")
-            else:
-                st.write(t["rec_mcrpc_parp"])
-            
+            st.markdown("### 2. Precision")
+            if is_brca: st.error(f"🧬 **BRCA+**\n- Olaparib 300mg BID\n- Talazoparib 0.5mg OD")
             st.write(t["rec_mcrpc_lutetium"])
-            if is_msi:
-                st.error(f"🧬 **MSI-High Detected:**\n{t['rec_mcrpc_pembro']}")
-            st.write(t["rec_mcrpc_ra223"])
+            if is_msi: st.error(t["rec_mcrpc_pembro"])
+            
+        with c3:
+            st.markdown("### 3. Bone / Support")
+            if bone_mets > 0:
+                st.info(t["bone_protection"])
+                st.write(t["rec_mcrpc_ra223"])
             
         mermaid_code = f"""
         graph TD
-        mCRPC --> Options
-        Options --> Chemo[Docetaxel/Cabazitaxel]
-        Options --> PARP{{{is_brca}}}
-        PARP -->|BRCA+| Olaparib
-        Options --> Lu177[PSMA-Lu]
+        mCRPC --> Prior{{{prior}}}
+        Prior -->|ADT| ARPI[Enza/Abi]
+        Prior -->|ARPI| Chemo[Docetaxel 75q3w/50q2w]
+        Prior -->|Docetaxel| 2ndLine[Cabazitaxel/Lu177]
         """
 
 # Render Mermaid
