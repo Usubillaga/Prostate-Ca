@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Translation & Content Dictionary ---
+# --- 2. Translations & Content Dictionary ---
 translations = {
     "English": {
         "title": "Prostate Cancer Algorithm (EAU / S3 Guidelines 2025)",
@@ -180,8 +180,8 @@ translations = {
         """,
         "rec_mcrpc_parp": """
         **PARP Inhibitors (BRCA1/2 Mutation)**
-        - **Olaparib:** $300$ mg BID.
-        - **Talazoparib:** $0.5$ mg OD.
+        - **Olaparib:** 300 mg BID.
+        - **Talazoparib:** 0.5 mg OD.
         ✅ 🇪🇺 Approved.
         """,
         "rec_mcrpc_lutetium": """
@@ -360,8 +360,8 @@ translations = {
         """,
         "rec_mcrpc_parp": """
         **PARP-Inhibitoren (BRCA1/2 Mutation)**
-        - **Olaparib:** $300$ mg 2x tgl.
-        - **Talazoparib:** $0,5$ mg 1x tgl.
+        - **Olaparib:** 300 mg 2x tgl.
+        - **Talazoparib:** 0.5 mg 1x tgl.
         ✅ 🇪🇺 Zugelassen.
         """,
         "rec_mcrpc_lutetium": """
@@ -541,8 +541,8 @@ translations = {
         """,
         "rec_mcrpc_parp": """
         **Inhibidores PARP (Mutación BRCA1/2)**
-        - **Olaparib:** $300$ mg BID.
-        - **Talazoparib:** $0.5$ mg OD.
+        - **Olaparib:** 300 mg BID.
+        - **Talazoparib:** 0.5 mg OD.
         ✅ 🇪🇺 Aprobado.
         """,
         "rec_mcrpc_lutetium": """
