@@ -148,7 +148,7 @@ translations = {
         
         **Standard: Triple Therapy**
         1. **ADT** (Continuous).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles) OR $50 \\text{ mg/m}^2$ q2w (Alternative).
         3. **ARPI:**
            - **Darolutamide:** $600$ mg BID.
            - *OR* **Abiraterone:** $1000$ mg OD + Prednisone.
@@ -329,7 +329,7 @@ translations = {
         
         **Standard: Tripel-Therapie**
         1. **ADT** (Kontinuierlich).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 Zyklen).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w ODER $50 \\text{ mg/m}^2$ q2w (Alternative).
         3. **ARPI:**
            - **Darolutamid:** $600$ mg 2x tgl.
            - *ODER* **Abirateron:** $1000$ mg + Prednison.
@@ -510,7 +510,7 @@ translations = {
         
         **Estándar: Terapia Triple**
         1. **ADT** (Continuo).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 ciclos).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 ciclos). O $50 \\text{ mg/m}^2$ q2w (Alternativa).
         3. **ARPI:**
            - **Darolutamida:** $600$ mg BID.
            - *O* **Abiraterona:** $1000$ mg OD + Prednisona.
