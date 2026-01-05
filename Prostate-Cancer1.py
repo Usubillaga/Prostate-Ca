@@ -1,3 +1,4 @@
+
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -8,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Translation & Content Dictionary ---
+# --- 2. Translations & Content Dictionary ---
 translations = {
     "English": {
         "title": "Prostate Cancer Algorithm (EAU / S3 Guidelines 2025)",
@@ -229,6 +230,19 @@ translations = {
         - *Indication:* MSI-High / dMMR only.
         """,
         
+        "rec_mcrpc_lutetium": """
+        **Radioligand Therapy (PSMA+)**
+        - **Lu-177-PSMA-617:** 7.4 GBq q6w (6 cycles).
+        ✅ 🇪🇺 Approved post-ARPI & Chemo (VISION).
+        """,
+
+        "rec_mcrpc_parp": """
+        **PARP Inhibitors (BRCA1/2 Mutation)**
+        - **Olaparib:** 300 mg BID.
+        - **Talazoparib:** 0.5 mg OD.
+        ✅ 🇪🇺 Approved.
+        """,
+        
         "rec_mcrpc_ra223": """
         **Bone-Targeted (3rd Line/Symptomatic)**
         - **Radium-223:** 55 kBq/kg q4w.
@@ -346,7 +360,7 @@ translations = {
         *Kriterium: PSADT < 9 Monate (EMBARK) oder PSADT < 1 Jahr (EAU).*
         
         **Therapie:**
-        - **Enzalutamid** (160 mg) + ADT.
+        - **Enzalutamid** (160 mg OD) + ADT.
         
         ✅ **Zulassung:**
         - 🇪🇺 **EMA:** Enzalutamide seit 2024 für High-Risk BCR zugelassen.
@@ -360,24 +374,21 @@ translations = {
         "header_nmcrpc": "Nicht-Metastasiertes CRPC (nmCRPC / M0)",
         "crpc_criteria": """
         **CRPC Definition (EAU):**
-        1. **Kastrationsniveau:** Testosteron < 50 ng/dL (< 1,7 nmol/L).
-        2. **Biochemischer Progress:** 3 konsekutive PSA-Anstiege, 1 Woche Abstand, PSA > 2,0 ng/mL.
-        3. **Keine Metastasen:** Konventionelles Imaging (CT/Szinti) negativ.
+        1. **Kastrationsniveau:** Testosteron < 50 ng/dL.
+        2. **Progress:** 3 PSA-Anstiege > 2,0 ng/mL.
+        3. **Keine Metastasen:** Im CT/Szinti.
         """,
         "rec_nmcrpc_high": """
         🔴 **Hochrisiko nmCRPC (PSADT < 10 Monate)**
         *1. Linie Standard:*
-        
-        - **Apalutamid:** 240 mg (SPARTAN).
-        - **Enzalutamid:** 160 mg (PROSPER).
-        - **Darolutamid:** 600 mg 2x tgl (ARAMIS).
-        
-        ✅ **Zulassung:** Alle drei Substanzen sind für Hochrisiko-nmCRPC voll zugelassen.
+        - **Apalutamid:** 240 mg.
+        - **Enzalutamid:** 160 mg.
+        - **Darolutamid:** 600 mg 2x tgl.
+        ✅ 🇪🇺 Alle voll zugelassen.
         """,
         "rec_nmcrpc_low": """
         🟢 **Niedrigrisiko nmCRPC (PSADT > 10 Monate)**
-        - **Empfehlung:** Fortführung ADT. Beobachtung.
-        - *Grund:* Vorteil der ARPIs bei langsamem Verlauf nicht eindeutig belegt.
+        - **Empfehlung:** Beobachtung unter ADT.
         """,
 
         "bone_prot_mhspc": """
@@ -402,7 +413,7 @@ translations = {
         
         **1. Linie Standard: Tripel-Therapie**
         1. **ADT** (Kontinuierlich).
-        2. **Docetaxel:** 75 mg/m² q3w (6 Zyklen) ODER 50 mg/m² q2w (PROSTY).
+        2. **Docetaxel:** 75 mg/m² q3w (6 Zyklen) ODER 50 mg/m² q2w.
         3. **ARPI:**
            - **Darolutamid:** 600 mg 2x tgl.
            - *ODER* **Abirateron:** 1000 mg + Prednison.
@@ -436,7 +447,7 @@ translations = {
         "line1_post_arpi": """
         **1./2. Linie (Nach ARPI-Progress)**
         *Mechanismus wechseln!*
-        - **Docetaxel:** 75 mg/m² q3w ODER 50 mg/m² q2w.
+        - **Docetaxel:** 75 mg/m² q3w ODER 50 mg/m² q2w (PROSTY).
         """,
         
         "line2_post_doc": """
@@ -450,6 +461,19 @@ translations = {
         **Immuntherapie (Jede Linie)**
         - **Pembrolizumab:** 200 mg q3w.
         - *Indikation:* Nur bei MSI-High / dMMR.
+        """,
+        
+        "rec_mcrpc_lutetium": """
+        **Radioligandentherapie (PSMA+)**
+        - **Lu-177-PSMA-617:** 7,4 GBq alle 6 Wochen.
+        ✅ 🇪🇺 Zugelassen (VISION).
+        """,
+
+        "rec_mcrpc_parp": """
+        **PARP-Inhibitoren (BRCA1/2 Mutation)**
+        - **Olaparib:** 300 mg 2x tgl.
+        - **Talazoparib:** 0,5 mg 1x tgl.
+        ✅ 🇪🇺 Zugelassen.
         """,
         
         "rec_mcrpc_ra223": """
@@ -671,6 +695,19 @@ translations = {
         **Inmunoterapia (Cualquier Línea)**
         - **Pembrolizumab:** 200 mg q3w.
         - *Indicación:* MSI-Alto / dMMR.
+        """,
+        
+        "rec_mcrpc_lutetium": """
+        **Terapia Radioligandos (PSMA+)**
+        - **Lu-177-PSMA-617:** 7.4 GBq q6w (6 ciclos).
+        ✅ 🇪🇺 Aprobado post-ARPI & Quimio (VISION).
+        """,
+
+        "rec_mcrpc_parp": """
+        **Inhibidores PARP (Mutación BRCA1/2)**
+        - **Olaparib:** 300 mg BID.
+        - **Talazoparib:** 0.5 mg OD.
+        ✅ 🇪🇺 Aprobado.
         """,
         
         "rec_mcrpc_ra223": """
@@ -897,9 +934,11 @@ elif disease_extent == t["extent_opts"][5]:
                 
         with c2:
             st.markdown("### 2. Precision")
-            if is_brca: st.error(f"🧬 **BRCA+**\n- Olaparib 300mg BID\n- Talazoparib 0.5mg OD")
+            if is_brca: st.error(f"🧬 **BRCA+**\n{t['rec_mcrpc_parp']}")
+            else: st.write(t["rec_mcrpc_parp"])
+            
             st.write(t["rec_mcrpc_lutetium"])
-            if is_msi: st.error(t["rec_mcrpc_pembro"])
+            if is_msi: st.error(f"🧬 **MSI-High**\n{t['rec_mcrpc_pembro']}")
             
         with c3:
             st.markdown("### 3. Bone / Support")
