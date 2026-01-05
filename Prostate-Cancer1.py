@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Translations & Content Dictionary ---
+# --- 2. Translation & Content Dictionary ---
 translations = {
     "English": {
         "title": "Prostate Cancer Algorithm (EAU / S3 Guidelines 2025)",
@@ -148,7 +148,7 @@ translations = {
         
         **Standard: Triple Therapy**
         1. **ADT** (Continuous).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles) OR $50 \\text{ mg/m}^2$ q2w (Alternative).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles) OR $50 \\text{ mg/m}^2$ q2w.
         3. **ARPI:**
            - **Darolutamide:** $600$ mg BID.
            - *OR* **Abiraterone:** $1000$ mg OD + Prednisone.
@@ -168,7 +168,7 @@ translations = {
         
         ✅ **Approvals:**
         - 🇪🇺 **Enzalutamide:** $160$ mg OD (ARCHES).
-        - 🇪🇺 **Apalutamide:** $240$ mg OD (TITAN).
+        - 🇪🇺 **Apalutamida:** $240$ mg OD (TITAN).
         """,
 
         # --- mCRPC ---
@@ -329,7 +329,7 @@ translations = {
         
         **Standard: Tripel-Therapie**
         1. **ADT** (Kontinuierlich).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w ODER $50 \\text{ mg/m}^2$ q2w (Alternative).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 Zyklen) ODER $50 \\text{ mg/m}^2$ q2w.
         3. **ARPI:**
            - **Darolutamid:** $600$ mg 2x tgl.
            - *ODER* **Abirateron:** $1000$ mg + Prednison.
@@ -510,7 +510,7 @@ translations = {
         
         **Estándar: Terapia Triple**
         1. **ADT** (Continuo).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 ciclos). O $50 \\text{ mg/m}^2$ q2w (Alternativa).
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 ciclos) O $50 \\text{ mg/m}^2$ q2w.
         3. **ARPI:**
            - **Darolutamida:** $600$ mg BID.
            - *O* **Abiraterona:** $1000$ mg OD + Prednisona.
