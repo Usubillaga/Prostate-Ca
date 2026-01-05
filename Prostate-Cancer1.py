@@ -8,12 +8,12 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Translations & Content Dictionary ---
+# --- 2. Translation & Content Dictionary ---
 translations = {
     "English": {
         "title": "Prostate Cancer Algorithm (EAU / S3 Guidelines 2025)",
         "sidebar_title": "Configuration",
-        "screening_note": "ℹ️ **Note:** DRE is critical for **Staging** (cT2 vs cT3) but questionable for **Screening** (PROBASE study).",
+        [span_2](start_span)"screening_note": "ℹ️ **Note:** DRE is critical for **Staging** (cT2 vs cT3) but questionable for **Screening** (PROBASE study)[span_2](end_span).",
 
         # Labels
         "extent_label": "Clinical Phase",
@@ -44,7 +44,7 @@ translations = {
         "pirads_opts": ["PIRADS 1-2", "PIRADS 3", "PIRADS 4-5"],
         "n_stages": ["cN0 (Nodes Negative)", "cN1 (Regional Nodes Positive)"],
         "m_states": ["mHSPC (Hormone Sensitive)", "mCRPC (Castration Resistant)"],
-        "prior_opts": ["ADT Only (Naïve)", "ADT + Docetaxel", "ADT + ARPI (Abiraterone/Enza/Apa/Daro)", "Triple Therapy"],
+        "prior_opts": ["ADT Only", "ADT + Docetaxel", "ADT + ARPI", "Triple Therapy"],
         "primary_tx_opts": ["Radical Prostatectomy (RP)", "Radiotherapy (EBRT)"],
 
         # --- DIAGNOSIS ---
@@ -52,7 +52,7 @@ translations = {
         "rotterdam_high": """
         🔴 **High Risk Profile (Rotterdam Criteria)**
         *Risk Factors:* Abnormal DRE, High PSA Density (>0.15), or Family History.
-        - **Recommendation:** **mpMRI** is mandatory. If PIRADS $\ge$ 3, perform **Biopsy**.
+        - **Recommendation:** **mpMRI** is mandatory. [span_3](start_span)If PIRADS $\ge$ 3, perform **Biopsy**[span_3](end_span).
         """,
         "rotterdam_low": """
         🟢 **Low Risk Profile**
@@ -61,18 +61,18 @@ translations = {
         """,
         "rec_diag_biopsy": """
         🔴 **Perform Biopsy**
-        - **Method:** Transperineal (1st choice) or Transrectal.
-        - **Target:** Systematic + Targeted (fusion) for PIRADS $\ge$ 3.
+        - **[span_4](start_span)Method:** Transperineal (1st choice) or Transrectal[span_4](end_span).
+        - **[span_5](start_span)Target:** Systematic + Targeted (fusion) for PIRADS $\ge$ 3[span_5](end_span).
         """,
         "rec_diag_consider": """
         🟡 **Consider Biopsy**
         - **Context:** PIRADS 3 with borderline risk.
-        - **Decision:** Driven by PSA Density ($\ge$ 0.10) and patient preference.
+        - **[span_6](start_span)Decision:** Driven by PSA Density ($\ge$ 0.10) and patient preference[span_6](end_span).
         """,
         "rec_diag_obs": """
         🟢 **Observation / Follow-up**
         - **Context:** Low probability of csPCa.
-        - **Action:** PSA monitoring. Avoid immediate biopsy to reduce overdiagnosis.
+        - **Action:** PSA monitoring. [span_7](start_span)Avoid immediate biopsy to reduce overdiagnosis[span_7](end_span).
         """,
 
         # --- LOCALIZED ---
@@ -80,18 +80,18 @@ translations = {
         "rec_as_extended": """
         **Active Surveillance (AS)**
         *Guideline Variation:*
-        - **EAU:** Strict PSA < 10 ng/ml.
+        - **[span_8](start_span)EAU:** Strict PSA < 10 ng/ml[span_8](end_span).
         - **S3 Germany:** PSA $\le$ 15 ng/ml (ISUP 1, cT1c/2a, <50% cores) is eligible.
         - **Protocol:** PSA q3-6mo, DRE q12mo, Re-biopsy/MRI at 12-18mo.
         """,
         "rec_curative": """
         **Standard Curative Therapy**
-        - **Surgery:** Radical Prostatectomy (RP) + ePLND.
+        - **[span_9](start_span)Surgery:** Radical Prostatectomy (RP) + ePLND[span_9](end_span).
         - **Radiotherapy:** IMRT/VMAT ($74$-$80$ Gy) + Short-term ADT (4-6 mo).
         """,
         "rec_multi_high": """
         **High Risk Localized**
-        - **Radiotherapy:** Dose-escalated + **Long-term ADT** (2-3 years).
+        - **[span_10](start_span)Radiotherapy:** Dose-escalated + **Long-term ADT** (2-3 years)[span_10](end_span).
         - **Surgery:** RP + Extended ePLND (Multimodal).
         """,
 
@@ -100,7 +100,7 @@ translations = {
         "rec_la_cn0": """
         **Locally Advanced (cT3-4 cN0)**
         *High Risk Protocol:*
-        - **Standard:** EBRT (Prostate + SV) + **Long-term ADT** (2-3 years).
+        - **[span_11](start_span)Standard:** EBRT (Prostate + SV) + **Long-term ADT** (2-3 years)[span_11](end_span).
         - **Surgery:** RP only in multimodal setting.
         """,
         "rec_la_cn1": """
@@ -108,7 +108,7 @@ translations = {
         *STAMPEDE Protocol (High Risk M0):*
         1. **ADT:** Continuous (3 years).
         2. **Radiotherapy:** Prostate + Whole Pelvis.
-        3. **Abiraterone:** $1000$ mg OD + Prednisone $5$ mg.
+        3. **[span_12](start_span)Abiraterone:** $1000$ mg OD + Prednisone $5$ mg[span_12](end_span).
            - *Duration:* 2 years.
         
         ⚠️ **Approval Note:**
@@ -120,16 +120,16 @@ translations = {
         "header_bcr": "Biochemical Recurrence (BCR)",
         "rec_bcr_rp": """
         **Post-RP Recurrence (PSA > 0.2)**
-        - **Diagnostic:** PSMA-PET/CT recommended.
-        - **Therapy:** Salvage RT (Prostate Bed) +/- Pelvic Nodes.
-        - **ADT:** Add Short-term ADT (6mo) if PSA >0.6 (GETUG-AFU 16).
+        - **[span_13](start_span)Diagnostic:** PSMA-PET/CT recommended[span_13](end_span).
+        - **[span_14](start_span)Therapy:** Salvage RT (Prostate Bed) +/- Pelvic Nodes[span_14](end_span).
+        - **[span_15](start_span)ADT:** Add Short-term ADT (6mo) if PSA >0.6 (GETUG-AFU 16)[span_15](end_span).
         """,
         "rec_bcr_embark": """
         🔴 **High Risk BCR (EMBARK / EAU High Risk)**
         *Criteria: PSADT < 9 months (EMBARK) or PSADT < 1y (EAU).*
         
         **Therapy:**
-        - **Enzalutamide** ($160$ mg OD) + ADT (Leuprolide).
+        - **[span_16](start_span)Enzalutamide** ($160$ mg OD) + ADT (Leuprolide)[span_16](end_span).
         
         ✅ **Approval:**
         - 🇪🇺 **EMA:** Enzalutamide approved for High-Risk BCR (2024).
@@ -137,42 +137,47 @@ translations = {
         "rec_bcr_low": """
         🟢 **Low Risk BCR (EAU)**
         *Criteria: PSADT > 1 year AND ISUP < 4.*
-        - **Action:** Observation (Monitoring) or Salvage RT.
+        - **[span_17](start_span)Action:** Observation (Monitoring) or Salvage RT[span_17](end_span).
         """,
 
         # --- nmCRPC ---
         "header_nmcrpc": "Non-Metastatic CRPC (M0)",
         "crpc_criteria": """
-        **CRPC Definition:**
-        1. Castrate Testosterone < 50 ng/dl.
-        2. PSA Progression (3 consecutive rises).
-        3. No visible metastases on conventional imaging.
+        **[span_18](start_span)CRPC Definition (EAU)[span_18](end_span):**
+        1. **Castrate Testosterone:** < 50 ng/dL (< 1.7 nmol/L).
+        2. **Biochemical Progression:** 3 consecutive PSA rises, 1 week apart, PSA > 2.0 ng/mL.
+        3. **No Distant Metastases:** Confirmed by conventional imaging (CT/Bone Scan).
         """,
         "rec_nmcrpc_high": """
-        🔴 **High Risk (PSADT < 10 mo)**
-        **1st Line Options:**
-        - **Apalutamide:** $240$ mg OD.
-        - **Enzalutamide:** $160$ mg OD.
-        - **Darolutamide:** $600$ mg BID.
-        ✅ All approved (EMA/FDA).
+        🔴 **High Risk nmCRPC (PSADT < 10 months)**
+        *Standard of Care (Level 1 Evidence):*
+        
+        - **[span_19](start_span)Apalutamide:** $240$ mg OD (SPARTAN)[span_19](end_span).
+        - **[span_20](start_span)Enzalutamide:** $160$ mg OD (PROSPER)[span_20](end_span).
+        - **[span_21](start_span)Darolutamide:** $600$ mg BID (ARAMIS)[span_21](end_span).
+        
+        ✅ **Approval:** All three are fully approved (EMA/FDA) for high-risk nmCRPC.
         """,
         "rec_nmcrpc_low": """
-        🟢 **Low Risk (PSADT > 10 mo)**
-        - **Recommendation:** Observation (Continue ADT).
+        🟢 **Low Risk nmCRPC (PSADT > 10 months)**
+        - **Recommendation:** Continue ADT. [span_22](start_span)Observation[span_22](end_span).
+        - *Reason:* Benefit of ARPIs not clearly established in slow-growing disease.
         """,
 
         # --- BONE PROTECTION ---
-        "bone_protection": """
-        🦴 **Bone Protection Therapy**
-        *Indication: mCRPC with bone metastases (Standard). mHSPC (Recommended to prevent SRE).*
-        
-        **Options:**
-        1. **Denosumab (Xgeva):** $120$ mg s.c. every 4 weeks.
-        2. **Zoledronic Acid:** $4$ mg i.v. every 3-4 weeks (Renal dose adjust!).
-        
-        **Supplementation:**
-        - Calcium $500$ mg + Vitamin D $400$ IU daily.
-        - *Pre-check:* Dental clearance (ONJ risk).
+        "bone_prot_mhspc": """
+        🦴 **Bone Health (mHSPC)**
+        *Goal: Prevent Osteoporosis/Fractures from ADT.*
+        - **[span_23](start_span)Denosumab:** $60$ mg s.c. every 6 months[span_23](end_span).
+        - **Zoledronic Acid:** $4$ mg i.v. annually (or q3-6mo).
+        - *Note:* High-dose (120mg) is **NOT** standard for mHSPC unless specific high-risk/CRPC features exist.
+        """,
+        "bone_prot_mcrpc": """
+        🦴 **SRE Prevention (mCRPC)**
+        *Goal: Prevent Skeletal Related Events (Pathological fractures, cord compression).*
+        - **[span_24](start_span)Denosumab (Xgeva):** $120$ mg s.c. every 4 weeks[span_24](end_span).
+        - **[span_25](start_span)Zoledronic Acid:** $4$ mg i.v. every 3-4 weeks[span_25](end_span).
+        - *Supplement:* Calcium + Vit D. Dental check mandatory.
         """,
 
         # --- mHSPC ---
@@ -182,20 +187,26 @@ translations = {
         *Visceral Mets OR $\ge$4 Bone Mets*
         
         **1st Line Standard: Triple Therapy**
-        1. **ADT** (Continuous).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w (PROSTY).
+        1. **[span_26](start_span)ADT** (Continuous)[span_26](end_span).
+        2. **[span_27](start_span)Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 cycles) OR $50 \\text{ mg/m}^2$ q2w (PROSTY)[span_27](end_span).
         3. **ARPI:**
-           - **Darolutamide:** $600$ mg BID (ARASENS).
-           - *OR* **Abiraterone:** $1000$ mg OD + Prednisone (PEACE-1).
+           - **[span_28](start_span)Darolutamide:** $600$ mg BID (ARASENS)[span_28](end_span).
+           - *[span_29](start_span)OR* **Abiraterone:** $1000$ mg OD + Prednisone (PEACE-1)[span_29](end_span).
+        
+        ✅ **Approvals:**
+        - 🇪🇺 **Darolutamide/Abiraterone:** Approved for mHSPC.
         """,
         "rec_mhspc_low": """
         🟢 **Low Volume**
         
         **1st Line Standard: Doublet + Local RT**
-        1. **ADT** + **ARPI** (Enzalutamide / Apalutamide).
-        2. **Prostate RT:** 55 Gy / 20 Fx (STAMPEDE H).
+        1. **[span_30](start_span)ADT** + **ARPI** (Enzalutamide / Apalutamide)[span_30](end_span).
+        2. **[span_31](start_span)Prostate RT:** 55 Gy / 20 Fx (STAMPEDE H)[span_31](end_span).
         
-        ⛔ **Don't:** No Docetaxel for Low Volume.
+        ⛔ **Don't:** No Docetaxel for Low Volume (toxicity > benefit).
+        
+        ✅ **Approvals:**
+        - 🇪🇺 **Enzalutamide/Apalutamide:** Approved.
         """,
 
         # --- mCRPC ---
@@ -203,33 +214,32 @@ translations = {
         
         "line1_naive": """
         **1st Line (ARPI-Naïve)**
-        - **Enzalutamide:** $160$ mg OD.
-        - **Abiraterone:** $1000$ mg + Prednisone.
+        - **[span_32](start_span)Enzalutamide** or **Abiraterone**[span_32](end_span).
         - *Alternative:* Docetaxel if symptomatic/visceral crisis.
         """,
         
         "line1_post_arpi": """
         **1st/2nd Line (Post-ARPI Progression)**
         *Switch Mechanism! Do not use 2nd ARPI.*
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w.
+        - **[span_33](start_span)Docetaxel:** $75 \\text{ mg/m}^2$ q3w OR $50 \\text{ mg/m}^2$ q2w (PROSTY)[span_33](end_span).
         """,
         
         "line2_post_doc": """
         **2nd/3rd Line (Post-Docetaxel)**
-        - **Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (CARD Trial).
-        - **Lu-177-PSMA:** $7.4$ GBq q6w (if PSMA+).
-        - **Olaparib:** $300$ mg BID (if BRCA+).
+        - **[span_34](start_span)Cabazitaxel:** $25 \\text{ mg/m}^2$ q3w (CARD Trial)[span_34](end_span).
+        - **[span_35](start_span)Lu-177-PSMA:** $7.4$ GBq q6w (if PSMA+)[span_35](end_span).
+        - **[span_36](start_span)Olaparib:** $300$ mg BID (if BRCA+)[span_36](end_span).
         """,
         
         "rec_mcrpc_pembro": """
         **Immunotherapy (Any Line)**
-        - **Pembrolizumab:** $200$ mg q3w.
+        - **[span_37](start_span)Pembrolizumab:** $200$ mg q3w[span_37](end_span).
         - *Indication:* MSI-High / dMMR only.
         """,
         
         "rec_mcrpc_ra223": """
         **Bone-Targeted (3rd Line/Symptomatic)**
-        - **Radium-223:** $55$ kBq/kg q4w.
+        - **[span_38](start_span)Radium-223:** $55$ kBq/kg q4w[span_38](end_span).
         - *Indication:* Symptomatic bone mets, NO visceral mets.
         """
     },
@@ -358,34 +368,39 @@ translations = {
         "header_nmcrpc": "Nicht-Metastasiertes CRPC (nmCRPC / M0)",
         "crpc_criteria": """
         **CRPC Definition (EAU):**
-        1. **Kastrationsniveau:** Testosteron < 50 ng/dL.
-        2. **Progress:** 3 PSA-Anstiege > 2,0 ng/mL.
-        3. **Keine Metastasen:** Im CT/Szinti.
+        1. **Kastrationsniveau:** Testosteron < 50 ng/dL (< 1,7 nmol/L).
+        2. **Biochemischer Progress:** 3 konsekutive PSA-Anstiege, 1 Woche Abstand, PSA > 2,0 ng/mL.
+        3. **Keine Metastasen:** Konventionelles Imaging (CT/Szinti) negativ.
         """,
         "rec_nmcrpc_high": """
         🔴 **Hochrisiko nmCRPC (PSADT < 10 Monate)**
         *1. Linie Standard:*
-        - **Apalutamid:** $240$ mg.
-        - **Enzalutamid:** $160$ mg.
-        - **Darolutamid:** $600$ mg 2x tgl.
-        ✅ 🇪🇺 Alle voll zugelassen.
+        
+        - **Apalutamid:** $240$ mg (SPARTAN).
+        - **Enzalutamid:** $160$ mg (PROSPER).
+        - **Darolutamid:** $600$ mg 2x tgl (ARAMIS).
+        
+        ✅ **Zulassung:** Alle drei Substanzen sind für Hochrisiko-nmCRPC voll zugelassen.
         """,
         "rec_nmcrpc_low": """
         🟢 **Niedrigrisiko nmCRPC (PSADT > 10 Monate)**
-        - **Empfehlung:** Beobachtung unter ADT.
+        - **Empfehlung:** Fortführung ADT. Beobachtung.
+        - *Grund:* Vorteil der ARPIs bei langsamem Verlauf nicht eindeutig belegt.
         """,
 
-        "bone_protection": """
-        🦴 **Knochenschutz (Bone Protection)**
-        *Indikation: mCRPC mit Knochenmetastasen (Standard). mHSPC (Empfohlen zur SRE-Prävention).*
-        
-        **Optionen:**
-        1. **Denosumab (Xgeva):** $120$ mg s.c. alle 4 Wochen.
-        2. **Zoledronsäure:** $4$ mg i.v. alle 3-4 Wochen (Nierenfunktion!).
-        
-        **Supplementierung:**
-        - Calcium $500$ mg + Vitamin D $400$ IE täglich.
-        - *Vorab:* Zahnärztliche Kontrolle (Kiefernekrose-Risiko).
+        "bone_prot_mhspc": """
+        🦴 **Osteoprotektion (mHSPC)**
+        *Ziel: Prävention ADT-induzierter Osteoporose.*
+        - **Denosumab:** $60$ mg s.c. alle 6 Monate.
+        - **Zoledronsäure:** $4$ mg i.v. jährlich.
+        - *Cave:* Hochdosis (120mg) in mHSPC nicht Standard (außer bei CRPC-Übergang).
+        """,
+        "bone_prot_mcrpc": """
+        🦴 **SRE-Prävention (mCRPC)**
+        *Ziel: Vermeidung pathologischer Frakturen.*
+        - **Denosumab (Xgeva):** $120$ mg s.c. alle 4 Wochen.
+        - **Zoledronsäure:** $4$ mg i.v. alle 3-4 Wochen.
+        - *Support:* Calcium + Vit D obligat.
         """,
 
         "header_mhspc": "Metastasiert Hormonsensitiv (mHSPC)",
@@ -395,7 +410,7 @@ translations = {
         
         **1. Linie Standard: Tripel-Therapie**
         1. **ADT** (Kontinuierlich).
-        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 Zyklen) ODER $50 \\text{ mg/m}^2$ q2w.
+        2. **Docetaxel:** $75 \\text{ mg/m}^2$ q3w (6 Zyklen) ODER $50 \\text{ mg/m}^2$ q2w (PROSTY).
         3. **ARPI:**
            - **Darolutamid:** $600$ mg 2x tgl.
            - *ODER* **Abirateron:** $1000$ mg + Prednison.
@@ -408,9 +423,13 @@ translations = {
         
         **1. Linie Standard: Doublet + Lokaltherapie**
         1. **ADT** + **ARPI** (Enzalutamid / Apalutamida).
-        2. **Prostata-RT:** 55 Gy / 20 Fx.
+        2. **Prostata-RT:** 55 Gy / 20 Fx (STAMPEDE H).
         
-        ⛔ **Cave:** Kein Docetaxel bei Low Volume.
+        ⛔ **Cave:** Kein Docetaxel bei Low Volume (Toxizität > Nutzen).
+        
+        ✅ **Zulassung:**
+        - 🇪🇺 **Enzalutamid:** $160$ mg (ARCHES).
+        - 🇪🇺 **Apalutamida:** $240$ mg (TITAN).
         """,
 
         "header_mcrpc": "Metastasiert Kastrationsresistent (mCRPC)",
@@ -589,15 +608,19 @@ translations = {
         - **Recomendación:** Observación bajo ADT.
         """,
 
-        "bone_protection": """
-        🦴 **Protección Ósea**
-        *Indicación: mCRPC con metástasis óseas (Estándar).*
-        
-        **Opciones:**
-        1. **Denosumab:** $120$ mg s.c. c/4 sem.
-        2. **Ácido Zoledrónico:** $4$ mg i.v. c/3-4 sem.
-        
-        **Suplementos:** Calcio $500$ mg + Vitamina D $400$ UI.
+        "bone_prot_mhspc": """
+        🦴 **Osteoprotección (mHSPC)**
+        *Objetivo: Prevenir osteoporosis por ADT.*
+        - **Denosumab:** $60$ mg s.c. c/6 meses.
+        - **Ác. Zoledrónico:** $4$ mg i.v. anual.
+        - *Nota:* Dosis alta (120mg) no indicada en mHSPC estándar.
+        """,
+        "bone_prot_mcrpc": """
+        🦴 **Prevención SRE (mCRPC)**
+        *Objetivo: Prevenir fracturas patológicas.*
+        - **Denosumab (Xgeva):** $120$ mg s.c. c/4 sem.
+        - **Ác. Zoledrónico:** $4$ mg i.v. c/3-4 sem.
+        - *Suplemento:* Calcio + Vit D obligatorio.
         """,
 
         "header_mhspc": "Metastásico Hormonosensible (mHSPC)",
@@ -613,7 +636,8 @@ translations = {
            - *O* **Abiraterona:** $1000$ mg OD + Prednisona.
         
         ✅ **Aprobaciones:**
-        - 🇪🇺 **Darolutamida/Abiraterona:** Aprobados.
+        - 🇪🇺 **Darolutamida:** Aprobada mHSPC + Docetaxel (ARASENS).
+        - 🇪🇺 **Abiraterona:** Aprobada Alto Riesgo mHSPC (LATITUDE).
         """,
         "rec_mhspc_low": """
         🟢 **Bajo Volumen**
@@ -622,7 +646,11 @@ translations = {
         1. **ADT** + **ARPI** (Enzalututamida / Apalutamida).
         2. **RT Próstata:** 55 Gy / 20 Fx (STAMPEDE H).
         
-        ⛔ **No:** Evitar Docetaxel.
+        ⛔ **No:** Evitar Docetaxel (toxicidad > beneficio).
+        
+        ✅ **Aprobaciones:**
+        - 🇪🇺 **Enzalutamida:** $160$ mg (ARCHES).
+        - 🇪🇺 **Apalutamida:** $240$ mg (TITAN).
         """,
 
         "header_mcrpc": "Metastásico Resistente a Castración (mCRPC)",
@@ -636,7 +664,7 @@ translations = {
         "line1_post_arpi": """
         **1ª/2ª Línea (Tras ARPI)**
         *¡Cambiar Mecanismo!*
-        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w O $50 \\text{ mg/m}^2$ q2w.
+        - **Docetaxel:** $75 \\text{ mg/m}^2$ q3w O $50 \\text{ mg/m}^2$ q2w (PROSTY).
         """,
         
         "line2_post_doc": """
@@ -707,6 +735,10 @@ with st.sidebar:
     # Phase Selection
     disease_extent = st.selectbox(t["extent_label"], t["extent_opts"])
     
+    # Init vars
+    bone_mets = 0
+    prior = "ADT Only" 
+    
     # --- A. DIAGNOSIS ---
     if disease_extent == t["extent_opts"][0]:
         st.subheader("Diagnostics")
@@ -753,13 +785,12 @@ with st.sidebar:
         st.subheader("Metastatic Details")
         m_state = st.radio(t["meta_state_label"], t["m_states"])
         is_high_vol = False
-        bone_mets = 0
         if m_state == t["m_states"][0]: # mHSPC
             if st.checkbox("High Volume (Visceral/4+ Bone)?"): is_high_vol = True
-            bone_mets = st.number_input("Bone Mets Count", 0, 10, 1)
+            bone_mets = st.number_input("Bone Mets Count", 0, 20, 1)
         else: # mCRPC
             prior = st.selectbox("Prior Therapy", t["prior_opts"])
-            bone_mets = st.number_input("Bone Mets Count", 0, 10, 1)
+            bone_mets = st.number_input("Bone Mets Count", 0, 20, 1)
 
 # --- 5. Main Content ---
 st.title(t["title"])
@@ -853,9 +884,9 @@ elif disease_extent == t["extent_opts"][5]:
             st.success(t["rec_mhspc_low"])
             mermaid_code = "graph TD\nmHSPC --> Vol{Low Vol}\nVol --> Double[Doublet + RT]"
         
-        # Bone Protection for mHSPC
+        # Bone Protection for mHSPC (Osteoprotection)
         if bone_mets > 0:
-            st.info(t["bone_protection"])
+            st.info(t["bone_prot_mhspc"])
 
     else: # mCRPC
         st.header(t["header_mcrpc"])
@@ -880,7 +911,7 @@ elif disease_extent == t["extent_opts"][5]:
         with c3:
             st.markdown("### 3. Bone / Support")
             if bone_mets > 0:
-                st.info(t["bone_protection"])
+                st.info(t["bone_prot_mcrpc"])
                 st.write(t["rec_mcrpc_ra223"])
             
         mermaid_code = f"""
